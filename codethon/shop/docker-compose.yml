@@ -1,0 +1,18 @@
+version: '3.9'
+
+services:
+  shop_backend:
+    build: .
+    container_name: shop_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./grocery/static:/app/grocery/static
+      - ./media:/app/media
+    networks:
+      - shop_network
+
+networks:
+  shop_network:
+    driver: bridge
+

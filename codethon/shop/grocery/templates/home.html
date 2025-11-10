@@ -1,0 +1,724 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Easy Way to shop</title>
+  <!--webpage icon link-->
+  <link rel="icon" href="{% static 'assets/images/navbar2image.png' %}">
+   <!-- Add a larger favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/favicon/favicon-32x32.png' %}">
+   <!-- bootstrap link-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <!-- bootstrap icons link-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <!-- css stylesheet external link-->
+ <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+  <!--fontawesome icons link-->
+  <script src="https://kit.fontawesome.com/b421bddb66.js" crossorigin="anonymous"></script>
+  <style>
+    /* Make navbar full width while keeping existing HTML intact */
+    .navsection .container {
+      max-width: 100% !important;
+      width: 100% !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+    /* Ensure navbar itself spans the viewport and border stays visible */
+    .navsection {
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 0;
+      height: 100px; /* Set navbar height to 100px */
+      border: 1px solid white;
+    }
+
+    /* Carousel full width and fixed height */
+    .hero-section,
+    .carousel-container {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    #carouselex,
+    .carousel,
+    .carousel-inner,
+    .carousel-item {
+      width: 100%;
+      height: 500px;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Ensure carousel images cover and no whitespace remains */
+    .carousel-item img {
+      width: 100%;
+      height: 500px;
+      display: block;
+      margin: 0;
+      padding: 0;
+      object-fit: cover;
+    }
+
+    /* Remove any default header/nav bottom margin to make it flush */
+    header, .navsection {
+      margin-bottom: 0;
+    }
+
+    /* If a container sits inside the carousel, remove its side padding */
+    .carousel-container > .container,
+    .carousel-container > .container-fluid {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      max-width: 100% !important;
+    }
+
+    /* Add border to all cards on the home page */
+    .card {
+      border: 1px solid #000 !important;
+    }
+
+    /* Adjust spacing and alignment for Top Products section */
+    .cardsection2 {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center; /* center the cards horizontally */
+    }
+
+    .cardsection2 .card {
+      margin: 0; /* gap handles spacing */
+    }
+
+    /* Adjust location text in navbar */
+    .navsection .d-flex.align-items-center > div:first-child {
+      margin-left: 30px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <!--navbarsection-->
+    <nav class="navbar navsection navbar-expand-lg bg-light navbar-light" style="box-shadow: 0 2px 4px rgba(239, 235, 235, 1);">
+      <div class="container">
+        <!--navbarsection first image-->
+        <div class="d-flex align-items-center">
+          {% comment %} <div>
+            <a href="https://www.google.com/maps/place/Softlogic/@13.0331168,80.1888352,15z/data=!4m15!1m8!3m7!1s0x3a525d71239ef587:0x75abe440202989b5!2sChennai,+Tamil+Nadu+600078!3b1!8m2!3d13.0410254!4d80.2000596!16s%2Fg%2F1hhhyzdmh!3m5!1s0x3a526752db8ffe35:0x7f6a2a2d0ebbdc94!8m2!3d13.037989!4d80.2044621!16s%2Fg%2F11b6hyvv_9?entry=ttu&g_ep=EgoyMDI1MTAwNy4wIKXMDSoASAFQAw%3D%3D"><span>Location</span></a><br>
+          </div> {% endcomment %}
+
+          <img src="{% static 'assets/images/navbar2image.png' %}" alt="navbarimage" width="100px">
+          <span class="fs-3 fw-bold">Easy way to shop</span>
+          <span class="fw-bold" id="alertmessage"></span>
+          </div>
+        <!--navbarsection toggler section image-->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarnav"
+          aria-control="navbarnav" aria-expanded="false" aria-label="toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarnav">
+          <ul class="navbar-nav ms-auto align-items-center">
+            <li class="nav-item">
+              <a href="#" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'about' %}" class="nav-link px-3" id="btn">About</a>
+            </li>
+            <li class="nav-item">
+
+              <a href="#contactsection" class="nav-link px-3" id="">Contact</a>
+            </li>
+            <!-- Categories Dropdown -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle px-3" href="#" id="categoriesDropdown" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Categories
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+                <li><a class="dropdown-item" href="{% url 'products' %}">Rice products</a></li>
+                <li><a class="dropdown-item" href="{% url 'products' %}">Dairy products</a></li>
+                <li><a class="dropdown-item"
+                    href="{% url 'products' %}#masala-spices">masala &amp;
+                    spices</a></li>
+                <li><a class="dropdown-item"
+                    href="{% url 'products' %}#cardsection">Cleaning
+                    Products</a></li>
+                <li><a class="dropdown-item"
+                    href="{% url 'products' %}#cardsection">HealthCare</a>
+                </li>
+                <li><a class="dropdown-item"
+                    href="{% url 'products' %}#cardsection">Instand
+                    products</a></li>
+              </ul>
+            </li>
+
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle px-3" href="#" id="loginDropdown" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                {% if is_customer_logged_in %}Logout{% else %}Login{% endif %}
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="loginDropdown">
+                {% if is_customer_logged_in %}
+                  <li><a class="dropdown-item" href="{% url 'customer_logout' %}">Logout</a></li>
+                {% else %}
+                  <li><a class="dropdown-item" href="{% url 'admin_login' %}" id="admin">Admin</a></li>
+                  <li><a class="dropdown-item" href="{% url 'salesperson_login' %}" id="salesperson">Sales Person</a></li>
+                  <li><a class="dropdown-item" href="{% url 'login_view'%}">Customer</a></li>
+                {% endif %}
+              </ul>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Show welcome alert once after customer login -->
+  {% if is_customer_logged_in %}
+    <div class="container mt-2">
+      <div class="alert alert-success alert-dismissible fade show text-center" role="alert" id="loginAlert">
+        Welcome to Easy Way, {{ user.first_name|default:user.username }}!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- Shared background -->
+  <div class="modalbg" style="display:none;"></div>
+
+  
+  <!-- Admin Login Modal -->
+  <div class="modalhide" id="adminModal" style="display:none;">
+    <div class="modalcontent">
+      <button type="button" id="closeAdmin" class="closebtn d-flex btn ms-auto">Close</button>
+      <h1 class="text-center">Admin Login</h1>
+
+      <p class="text-center text-muted mb-4">Welcome back! Please login to your account</p>
+
+      <form action="adminpage/admin.html" class="col-6 p-3 mx-auto">
+        <div class="mb-3" style="margin-left: 60px;">
+          <label for="adminUsername" class="form-label fw-bold">Username :</label>
+          <input type="text" placeholder="enter your username" class="form-control w-75" id="adminUsername" required>
+        </div>
+        <div class="mb-3" style="margin-left: 60px;">
+          <label for="adminPassword" class="form-label fw-bold">Password :</label>
+          <input type="password" placeholder="password" class="form-control w-75" id="adminPassword" required>
+        </div>
+
+        <div class="mb-3 d-flex justify-content-between align-items-center">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="rememberMe">
+            <label class="form-check-label small" for="rememberMe">
+              Remember me
+            </label>
+          </div>
+          <a href="#" class="text-decoration-none small forgot-password">Forgot Password?</a>
+        </div>
+        <!--login button-->
+        <div class="mb-3">
+          <button type="submit" class="btn btn-light btn-md d-flex mx-auto"><a href="adminpage/admin.html"
+              class="text-decoration-none text-light"> Login</a></button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Salesperson Login Modal -->
+  <div class="modalhide" id="salespersonModal" style="display:none;">
+    <div class="modalcontent">
+      <button type="button" id="closeSalesperson" class="closebtn d-flex btn ms-auto">Close</button>
+      <h1 class="text-center">Salesperson Login</h1>
+      <p class="text-center text-muted mb-4">Welcome back! Please login to your account</p>
+      <form action="salesperson/sales.html" class="col-6 p-3 mx-auto">
+        <div class="mb-3" style="margin-left: 60px;">
+          <label for="salesUsername" class="form-label fw-bold">Username :</label>
+          <input type="text" placeholder="enter your username" class="form-control w-75" id="salesusername" required>
+        </div>
+        <div class="mb-3" style="margin-left: 60px;">
+          <label for="salesPassword" class="form-label fw-bold">Password :</label>
+          <input type="password" placeholder="password" class="form-control w-75" id="salespassword" required>
+        </div>
+
+        <div class="mb-3 d-flex justify-content-between align-items-center">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="rememberMe">
+            <label class="form-check-label small" for="rememberMe">
+              Remember me
+            </label>
+          </div>
+          <a href="#" class="text-decoration-none small forgot-password">Forgot Password?</a>
+        </div>
+
+        <!--login button-->
+
+        <div class="mb-3">
+          <button type="submit" class="btn  btn-md d-flex mx-auto">Login</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!--banner section for homepage-->
+  <section class="hero-section">
+    <div class="carousel-container">
+      <div id="carouselex" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4000">
+
+        <!-- Indicators -->
+        <div class="carousel-indicators custom-indicators">
+          <button type="button" data-bs-target="#carouselex" data-bs-slide-to="0" class="active" aria-current="true"
+            aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselex" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselex" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          <button type="button" data-bs-target="#carouselex" data-bs-slide-to="3" aria-label="Slide 4"></button>
+          <button type="button" data-bs-target="#carouselex" data-bs-slide-to="4" aria-label="Slide 5"></button>
+        </div>
+
+        <!-- Carousel Items -->
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="carousel-overlay"></div>
+            <img src="{% static 'assets/banners/carousalbannerimg2.jpg' %}" alt="Special Offer 1" class="d-block w-100">
+            <div class="carousel-caption-custom">
+              <div class="caption-content">
+                <span class="caption-badge">New Arrival</span>
+                <h2 class="caption-title">Summer Collection 2024</h2>
+                <p class="caption-text text-dark">Discover amazing deals on trending products</p>
+                <a href="{% url 'products' %}" class="btn-shop-now text-decoration-none text-light">
+                  Shop Now <i class="fa-solid fa-arrow-right ms-2"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <div class="carousel-overlay"></div>
+            <img src="{% static 'assets/banners/bannerimgcarousel1.jpg' %}" alt="Special Offer 2" class="d-block w-100">
+            <div class="carousel-caption-custom">
+              <div class="caption-content">
+                <span class="caption-badge ">Limited Time</span>
+                <h2 class="caption-title ">Up to 50% Off</h2>
+                <p class="caption-text text-dark">Exclusive deals you don't want to miss</p>
+                <a href="{% url 'products' %}" class="btn-shop-now text-decoration-none text-light">
+                  Shop Now <i class="fa-solid fa-arrow-right ms-2"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <div class="carousel-overlay"></div>
+            <img src="{% static 'assets/banners/carouselbannerimg6.jpg' %}" alt="Special Offer 3" class="d-block w-100">
+            <div class="carousel-caption-custom">
+              <div class="caption-content">
+                <span class="caption-badge text-light">Trending</span>
+                <h2 class="caption-title text-light">Best Sellers</h2>
+                <p class="caption-text text-light">Shop our most popular items</p>
+                <a href="{% url 'products' %}"class="btn-shop-now text-decoration-none text-light">
+                  Shop Now <i class="fa-solid fa-arrow-right ms-2"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <div class="carousel-overlay"></div>
+            <img src="{% static 'assets/banners/carouselbannerimg4.jpg' %}" alt="Special Offer 4" class="d-block w-100">
+            <div class="carousel-caption-custom">
+              <div class="caption-content">
+                <span class="caption-badge text-light">Featured</span>
+                <h2 class="caption-title text-light">Premium Quality</h2>
+                <p class="caption-text text-light">Experience luxury at affordable prices</p>
+                <a href="{% url 'products' %}" class="btn-shop-now text-decoration-none text-light">
+                  Shop Now <i class="fa-solid fa-arrow-right ms-2"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <div class="carousel-overlay"></div>
+            <img src="{% static 'assets/banners/pexels-n-voitkevich-8939255.jpg' %}" alt="Special Offer 5" class="d-block w-100">
+            <div class="carousel-caption-custom">
+              <div class="caption-content">
+                <span class="caption-badge">Flash Sale</span>
+                <h2 class="caption-title">Limited Stock</h2>
+                <p class="caption-text text-dark">Grab yours before it's gone</p>
+                <a href="{% url 'products' %}" class="btn-shop-now text-decoration-none text-light">
+                  Shop Now <i class="fa-solid fa-arrow-right ms-2"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Custom Navigation Buttons -->
+        <button class="carousel-control-prev custom-control" type="button" data-bs-target="#carouselex"
+          data-bs-slide="prev">
+          <div class="control-icon">
+            <i class="fa-solid fa-chevron-left"></i>
+          </div>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next custom-control" type="button" data-bs-target="#carouselex"
+          data-bs-slide="next">
+          <div class="control-icon">
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+          <span class="visually-hidden">Next</span>
+        </button>
+
+        <!-- Progress Bar -->
+        <div class="carousel-progress">
+          <div class="progress-bar-custom"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!--card section-->
+  <!--top picks for you-->
+  <div>
+    <div>
+      <h1 class="text-center mt-3 mb-3">
+        Top Products for you
+      </h1>
+    </div>
+    <div class="cardsection2">
+      <div class="card">
+  <img src="{% static 'assets/cardimages/img3.jpg' %}" alt="" class="card-img-top">
+        <div class="card-body">
+          <h1 class="card-title"></h1>
+          <a class="dropdown-item" href="{% url 'products' %}">Rice products</a>
+
+        </div>
+      </div>
+      <div class="card">
+  <img src="{% static 'assets/cardimages/img1.jpg' %}" alt="" class="card-img-top">
+        <div class="card-body">
+          <h1 class="card-title"></h1>
+          <a class="dropdown-item" href="{% url 'products' %}">Dairy products</a>
+        </div>
+      </div>
+      <div class="card">
+  <img src="{% static 'assets/cardimages/img2.jpg' %}" alt="" class="card-img-top">
+        <div class="card-body">
+          <h1 class="card-title"></h1>
+          <a class="dropdown-item" href="{% url 'products' %}">Masala & Spices</a>
+        </div>
+      </div>
+      <div class="card">
+  <img src="{% static 'assets/cardimages/img5.jpg' %}" alt="" class="card-img-top">
+        <div class="card-body">
+          <h1 class="card-title"></h1>
+          <a class="dropdown-item" href="{% url 'products' %}">Cleaning Products</a>
+        </div>
+      </div>
+      <div class="card">
+  <img src="{% static 'assets/cardimages/img6.jpg' %}" alt="" class="card-img-top">
+        <div class="card-body">
+          <h1 class="card-title"></h1>
+          <a class="dropdown-item" href="{% url 'products' %}">HealthCare</a>
+        </div>
+      </div>
+      <div class="card">
+  <img src="{% static 'assets/cardimages/img7.jpg' %}" alt="" class="card-img-top">
+        <div class="card-body">
+          <h1 class="card-title"></h1>
+          <a class="dropdown-item" href="{% url 'products' %}">Instand products</a>
+        </div>
+      </div>
+      <div class="card">
+  <img src="{% static 'assets/milksection/milkimg2.jpg' %}" alt="" class="card-img-top">
+        <div class="card-body">
+          <h1 class="card-title"></h1>
+          <a class="dropdown-item" href="{% url 'products' %}">Milk products</a>
+        </div>
+      </div>
+      <div class="card">
+  <img src="{% static 'assets/instandproducts/MAGGI-2-Minute-Instant-Noodles-Masala-Noodles-Made-With-Quality-Spices.webp' %}"
+          alt="" class="card-img-top">
+        <div class="card-body">
+          <h1 class="card-title"></h1>
+          <a class="dropdown-item" href="{% url 'products' %}">Noodles</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!--banner section-->
+  <section>
+    <div class="container mb-3 mt-3">
+  <img src="{% static 'assets/banners/discountbanner.png' %}" alt="banner" width="100%" height="300px">
+    </div>
+  </section>
+
+
+  <!-- categories for you-->
+  <section>
+    <div>
+      <h1 class="text-center mt-3 mb-3">
+        Categories
+      </h1>
+    </div>
+    <div class="cardsection">
+      <div class="card " data-category="rice">
+  <a href="products1.html" class="movetoproducts"><img src="{% static 'assets/cardimages/img3.jpg' %}" alt="" class="card-img-top"></a>
+        <div class="card-body">
+          <h1 class="card-title"></h1>
+          <a class="dropdown-item" href="{% url 'products' %}">RICE Products</a>
+        </div>
+      </div>
+      <div class="card" data-category="dairy">
+  <a href="products1.html" class="movetoproducts"><img src="{% static 'assets/cardimages/img1.jpg' %}" alt="" class="card-img-top "></a>
+        <div class="card-body">
+          <h1 class="card-title"></h1>
+          <a class="dropdown-item" href="{% url 'products' %}">Dairy products</a>
+        </div>
+      </div>
+      <div class="card " data-category="masala">
+  <a href="products1.html" class="movetoproducts"><img src="{% static 'assets/cardimages/img2.jpg' %}" alt="" class="card-img-top"></a> 
+        <div class="card-body">
+          <h1 class="card-title"></h1>
+          <a class="dropdown-item" href="{% url 'products' %}">masala & spices</a>
+        </div>
+      </div>
+      <div class="card movetoproducts" data-category="cleaning">
+        <a href="products1.html" class="movetoproducts"><img src="{% static 'assets/cardimages/img5.jpg' %}" alt="" class="card-img-top"></a> 
+          <div class="card-body">
+          <h1 class="card-title"></h1>
+          <a class="dropdown-item" href="{% url 'products' %}">Cleaning Products</a>
+        </div>
+      </div>
+      <div class="card movetoproducts" data-category="healthcare">
+  <a href="products1.html" class="movetoproducts"><img src="{% static 'assets/cardimages/img6.jpg' %}" alt="" class="card-img-top"></a> 
+          <div class="card-body">
+          <h1 class="card-title"></h1>
+          <a class="dropdown-item" href="{% url 'products' %}">HealthCare</a>
+        </div>
+      </div>
+      <div class="card movetoproducts" data-category="instand">
+  <a href="products1.html" class="movetoproducts"> <img src="{% static 'assets/cardimages/img7.jpg' %}" alt="" class="card-img-top"></a> 
+          <div class="card-body">
+          <h1 class="card-title"></h1>
+          <a class="dropdown-item" href="{% url 'products' %}">Instand products</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer Section -->
+  <footer class="bg-dark text-light pt-5 pb-4">
+    <div class="container text-md-left">
+      <div class="row text-md-left">
+
+        <!-- About Section -->
+        <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+          <h5 class="text-uppercase mb-4 fw-bold text-success">Easy Way</h5>
+          <p>
+            Your one-stop shop for cooking products,snacks and daily essentials.
+            We deliver quality groceries at the best price, right to your doorstep.
+          </p>
+        </div>
+
+        <!-- Links -->
+        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+          <h5 class="text-uppercase mb-4 fw-bold text-success">Quick Links</h5>
+          <p><a href="#" class="text-light text-decoration-none">Home</a></p>
+          <p><a href="#" class="text-light text-decoration-none">Shop</a></p>
+          <p><a href="#" class="text-light text-decoration-none">Offers</a></p>
+          <p><a href="#" class="text-light text-decoration-none">Contact</a></p>
+        </div>
+
+        <!-- Customer Service -->
+        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+          <h5 class="text-uppercase mb-4 fw-bold text-success">Customer Service</h5>
+          <p><a href="#" class="text-light text-decoration-none">FAQs</a></p>
+          <p><a href="#" class="text-light text-decoration-none">Return Policy</a></p>
+          <p><a href="#" class="text-light text-decoration-none">Privacy Policy</a></p>
+          <p><a href="#" class="text-light text-decoration-none">Terms & Conditions</a></p>
+        </div>
+
+        <!-- Contact -->
+        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3" id="contactsection">
+          <h5 class="text-uppercase mb-4 fw-bold text-success">Contact</h5>
+          <p><i class="bi bi-house-door-fill me-2"></i> Address1</p>
+          <p><i class="bi bi-envelope-fill me-2"></i> website</p>
+          <p><i class="bi bi-telephone-fill me-2"></i> phone no</p>
+          <p><i class="bi bi-clock-fill me-2"></i>email</p>
+        </div>
+      </div>
+
+      <hr class="mb-4">
+
+      <!-- Social Media + Copyright -->
+      <div class="row align-items-center">
+        <div class="col-md-7 col-lg-6">
+          <p class="text-center text-md-start">© Easy Way to shop. All Rights Reserved.</p>
+        </div>
+
+        <div class="col-md-5 col-lg-6">
+          <div class="text-center text-md-end">
+            <a href="#" class="text-light me-3"><i class="bi bi-facebook fs-5"></i></a>
+            <a href="#" class="text-light me-3"><i class="bi bi-instagram fs-5"></i></a>
+            <a href="#" class="text-light me-3"><i class="bi bi-twitter fs-5"></i></a>
+            <a href="#" class="text-light"><i class="bi bi-whatsapp fs-5"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!--<script>
+
+    let modalbg = document.querySelector('.modalbg');
+
+    // modal click names
+    let customer = document.getElementById('customer');
+    let admin = document.getElementById('admin');
+    let salesperson = document.getElementById('salesperson');
+
+    // modal content
+    let customerModal = document.getElementById('customerModal');
+    let adminModal = document.getElementById('adminModal');
+    let salespersonModal = document.getElementById('salespersonModal');
+
+    //  close buttons
+    let closeCustomer = document.getElementById('closeCustomer');
+    let closeAdmin = document.getElementById('closeAdmin');
+    let closeSalesperson = document.getElementById('closeSalesperson');
+
+    // Function to open modal
+    function openModal(modal) {
+      modalbg.style.display = "block";
+      modal.style.display = "block";
+    }
+
+    // Function to close modal
+    function closeModal(modal) {
+      modalbg.style.display = "none";
+      modal.style.display = "none";
+    }
+
+    // Open modals
+    customer.addEventListener('click', () => openModal(customerModal));
+    admin.addEventListener('click', () => openModal(adminModal));
+    salesperson.addEventListener('click', () => openModal(salespersonModal));
+
+    // Close modals
+    closeCustomer.addEventListener('click', () => closeModal(customerModal));
+    closeAdmin.addEventListener('click', () => closeModal(adminModal));
+    closeSalesperson.addEventListener('click', () => closeModal(salespersonModal));
+
+    // Click outside modal closes it
+    modalbg.addEventListener('click', () => {
+      closeModal(customerModal);
+      closeModal(adminModal);
+      closeModal(salespersonModal);
+    });
+    //login page alert fucntion
+
+    let customermobileno = document.getElementById('customermobileno');
+    let customerpassword = document.getElementById('custpassword');
+    let customererror1 = document.getElementById('custerror1');
+    let customererror2 = document.getElementById('custerror2');
+    customermobileno.addEventListener('input', () => {
+      if (customermobileno.value.length < 10) {
+        customererror1.textContent = 'enter a valid mobileno';
+      }
+      else {
+        customererror1.textContent = '';
+      }
+    })
+    customerpassword.addEventListener('input', () => {
+      if (customerpassword.value.length < 8) {
+        customererror2.textContent = 'mobileno and password does not match';
+      }
+      else {
+        customererror2.textContent = '';
+      }
+    })
+
+    // function to alert message the customer
+
+    let alertmessage=document.getElementById('alertmessage');
+    let loginalert=document.getElementById('loginalert');
+    
+
+    loginalert.addEventListener('click',(e)=>{
+      let welcomeusername=customerusername.value
+      e.preventDefault();
+      alertmessage.innerHTML='welcome back' + ' ' + welcomeusername;
+      
+    })
+
+   
+  </script>-->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+  <script>
+    // Auto-dismiss the login alert 2 seconds after page load
+    document.addEventListener('DOMContentLoaded', function () {
+      var alertEl = document.getElementById('loginAlert');
+      if (alertEl) {
+        try {
+          // Wait 2000ms then close using Bootstrap's Alert API
+          setTimeout(function () {
+            if (window.bootstrap && bootstrap.Alert) {
+              var bsAlert = bootstrap.Alert.getOrCreateInstance(alertEl);
+              bsAlert.close();
+            } else {
+              // Fallback: hide the element
+              alertEl.style.display = 'none';
+            }
+          }, 2000);
+        } catch (e) {
+          // On any error, hide the alert after timeout
+          setTimeout(function () { alertEl.style.display = 'none'; }, 2000);
+        }
+      }
+
+      // Add active class to navbar links on click
+      const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+
+      navLinks.forEach(link => {
+        link.addEventListener('click', function () {
+          // Remove 'active' from all links
+          navLinks.forEach(navLink => navLink.classList.remove('active'));
+          // Add 'active' to the clicked link
+          this.classList.add('active');
+        });
+
+        // Set active class on page load based on current URL
+        if (this.href === window.location.href) {
+            this.classList.add('active');
+        }
+      });
+
+      // Special handling for 'Home' link if it's just '/' or index.html
+      const currentPath = window.location.pathname;
+      const homeLink = document.querySelector('.navbar-nav .nav-item a[href="#"]'); // Assuming Home link is # or /
+
+      if ((currentPath === '/' || currentPath.endsWith('/home.html')) && homeLink) {
+          navLinks.forEach(navLink => navLink.classList.remove('active')); // Clear others
+          homeLink.classList.add('active');
+      }
+
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,601 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Easy Way</title>
+    <link rel="icon" href="{% static 'assets/images/navbar2image.png' %}">
+    <!-- Add a larger favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/images/favicon-32x32.png' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://kit.fontawesome.com/b421bddb66.js" crossorigin="anonymous"></script>
+    <style>
+        .navbar-nav li {
+            font-weight: bolder;
+            font-size: 1.1rem;
+        }
+
+        /* Adjust location text in navbar */
+        .navsection .d-flex.align-items-center > div:first-child {
+          margin-left: 30px;
+          text-align: center;
+        }
+        .navsection {
+            height: 100px;
+        }
+        * {
+            padding: 0%;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(to bottom, rgb(237, 239, 236), rgb(226, 231, 226));
+        }
+
+        .rightquote {
+            padding: 20px;
+            font-size: 22px;
+            background: #76b852;
+            color: white;
+            border-radius: 20px;
+            margin-left: 30px;
+            margin-right: 10px;
+            width: 1440px;
+        }
+
+        .rightquote h1 {
+            text-align: center;
+        }
+
+        .rightquote p {
+            font-family: sans-serif;
+        }
+
+        .bannersection img {
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .cta {
+            background: #76b852;
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+            border-radius: 8px;
+        }
+
+        .cta h2 {
+            margin-bottom: 15px;
+        }
+
+        .cta button {
+            background: white;
+            color: #76b852;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .cta button:hover {
+            background: #e6e6e6;
+        }
+
+        .section h2 {
+            padding: 20px;
+        }
+
+        .values {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            text-align: center;
+        }
+
+        .value-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            width: 280px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .value-card h3 {
+            margin-bottom: 10px;
+            color: #76b852;
+        }
+
+        .story {
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        .story img {
+            width: 100%;
+            border-radius: 10px;
+            margin-top: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Button Section */
+        .button-section {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .tab-button {
+            background: white;
+            color: #76b852;
+            border: 2px solid #76b852;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin: 5px;
+        }
+
+        .tab-button:hover {
+            background: #76b852;
+            color: white;
+        }
+
+        .tab-button.active {
+            background: #76b852;
+            color: white;
+        }
+
+        /* Gallery Section */
+        .gallery {
+            border: 2px solid white;
+            background-color: #e6e6e6;
+            border-radius: 15px;
+            margin: 10px;
+            padding: 30px;
+            min-height: 500px;
+        }
+
+        .gallery h2 {
+            text-align: center;
+            font-size: 2rem;
+            color: #76b852;
+            margin-bottom: 20px;
+        }
+
+        .gallery-content {
+            display: none;
+        }
+
+        .gallery-content.active {
+            display: block;
+        }
+
+        .team {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            text-align: center;
+        }
+
+        .team-member {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            width: 250px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            background: #e0e0e0;
+        }
+
+        /* Feedback Form */
+        .feedback-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .feedback-form h3 {
+            color: #76b852;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: #76b852;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: #5a9c3d;
+        }
+
+        /* Image Gallery */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #e0e0e0;
+        }
+
+        .gallery-item-caption {
+            padding: 15px;
+            text-align: center;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navsection container-fluid m-0 row navbar-expand-lg bg-light navbar-light shadow-sm">
+            <div class="container-fluid">
+                <div class="col-lg-7 col-md-8 d-flex align-items-center">
+                    {% comment %} <div>
+                        <a href="https://www.google.com/maps/place/Softlogic/@13.0331168,80.1888352,15z/data=!4m15!1m8!3m7!1s0x3a525d71239ef587:0x75abe440202989b5!2sChennai,+Tamil+Nadu+600078!3b1!8m2!3d13.0410254!4d80.2000596!16s%2Fg%2F1hhhyzdmh!3m5!1s0x3a526752db8ffe35:0x7f6a2a2d0ebbdc94!8m2!3d13.037989!4d80.2044621!16s%2Fg%2F11b6hyvv_9?entry=ttu&g_ep=EgoyMDI1MTAwNy4wIKXMDSoASAFQAw%3D%3D"><span>Location</span></a><br>
+                    </div> {% endcomment %}
+                    <img src="{% static 'assets/images/navbar2image.png' %}" alt="navbarimage" width="100px">
+                    <span class="fs-3 fw-bold">Easy way to shop</span>
+                    <span class="fw-bold" id="alertmessage"></span>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarnav"
+                    aria-control="navbarnav" aria-expanded="false" aria-label="toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarnav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a href="{% url 'homepage' %}" class="nav-link px-3">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link px-3" id="btn">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#contactsection" class="nav-link px-3" id="">Contact</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle px-3" href="#" id="categoriesDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Categories
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+                                <li><a class="dropdown-item" href="{% url 'products' %}#cardsection">Rice products</a></li>
+                                <li><a class="dropdown-item" href="{% url 'products' %}#cardsection">Dairy products</a></li>
+                                <li><a class="dropdown-item" href="{% url 'products' %}#cardsection">masala &
+                                        spices</a></li>
+                                <li><a class="dropdown-item" href="{% url 'products' %}#cardsection">Cleaning
+                                        Products</a></li>
+                                <li><a class="dropdown-item" href="{% url 'products' %}#cardsection">HealthCare</a>
+                                </li>
+                                <li><a class="dropdown-item" href="{% url 'products' %}#cardsection">Instand
+                                        products</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle px-3" href="#" id="loginDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Login
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="loginDropdown">
+                                <li><a class="dropdown-item" href="adminlogin.html" id="admin">Admin</a></li>
+                                <li><a class="dropdown-item" href="salespersonlogin.html" id="salesperson">Sales
+                                        Person</a></li>
+                                <li><a class="dropdown-item" href="customerlogin.html" id="customer">Customer</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section>
+        <div class="container-fluid bannersection">
+            <img src="{% static 'assets/banners/about-banner.jpg' %}" alt="" width="100%" height="600px">
+        </div>
+    </section>
+
+    <section>
+        <div class="row">
+            <div class="rightquote">
+                <h1>"Being With the People all the time"</h1>
+                <p class="text-center">
+                    Always with the local community people and help with their needs like a family. We respect people
+                    time and their needs with both on store service and on door service.
+                    No need to worry, get a phone in your hand and get the product in your hand from your very own and
+                    well know shop within 10 to 20 minutes.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="text-center">Our Core Values</h2>
+        <div class="values">
+            <div class="value-card">
+                <h3>Freshness</h3>
+                <p>We partner with trusted farmers to deliver only the freshest produce and pantry essentials.</p>
+            </div>
+            <div class="value-card">
+                <h3>Community</h3>
+                <p>We support local producers and believe in building a sustainable community together.</p>
+            </div>
+            <div class="value-card">
+                <h3>Convenience</h3>
+                <p>Your comfort is our priority. Easy browsing, fast delivery, and top-notch service — always.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Button Section -->
+    <section class="button-section">
+        <button class="tab-button active" data-tab="feedback">Feedback Form</button>
+        <button class="tab-button" data-tab="team">Meet Our Team</button>
+        <button class="tab-button" data-tab="images">Image Gallery</button>
+    </section>
+
+    <!-- Gallery Section -->
+    <section>
+        <div class="container-fluid">
+            <div class="gallery">
+                <!-- Feedback Form Content -->
+                <div class="gallery-content active" id="feedback">
+                    <h2>We Value Your Feedback</h2>
+                    <div class="feedback-form">
+                        <h3>Teach Us to Improve</h3>
+                        <form id="feedbackFormElement">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="rating">Rating</label>
+                                <select id="rating" name="rating" class="form-control">
+                                    <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+                                    <option value="4">⭐⭐⭐⭐ Good</option>
+                                    <option value="3">⭐⭐⭐ Average</option>
+                                    <option value="2">⭐⭐ Poor</option>
+                                    <option value="1">⭐ Very Poor</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Your Feedback</label>
+                                <textarea id="message" name="message" required></textarea>
+                            </div>
+                            <button type="submit" class="submit-btn">Submit Feedback</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Team Members Content -->
+                <div class="gallery-content" id="team">
+                    <h2>Meet Our Team</h2>
+                    <div class="team">
+                        <div class="team-member">
+                            <img src="{% static 'assets/images/team1.jpg' %}" alt="Dinesh Thangavel">
+                            <h3>Dinesh Thangavel</h3>
+                            <p>Founder & CEO</p>
+                            <p style="font-size: 0.9rem; color: #666;">Leading with passion and dedication to serve our
+                                community.</p>
+                        </div>
+                        <div class="team-member">
+                            <img src="{% static 'assets/images/team2.jpg' %}" alt="Priya K">
+                            <h3>Priya K</h3>
+                            <p>Administrator</p>
+                            <p style="font-size: 0.9rem; color: #666;">Ensuring smooth operations and excellent
+                                customer service.</p>
+                        </div>
+                        <div class="team-member">
+                            <img src="{% static 'assets/images/team3.jpg' %}" alt="Arjun R">
+                            <h3>Arjun R</h3>
+                            <p>Sales Person</p>
+                            <p style="font-size: 0.9rem; color: #666;">Connecting with customers and delivering quality
+                                products.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Gallery Content -->
+                <div class="gallery-content" id="images">
+                    <h2>Our Store Gallery</h2>
+                    <div class="image-gallery">
+                        <div class="gallery-item">
+                            <img src="{% static 'assets/gallery/store1.jpg' %}" alt="Store Front">
+                            <div class="gallery-item-caption">
+                                <strong>Our Store Front</strong>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="{% static 'assets/gallery/products1.jpg' %}" alt="Fresh Produce">
+                            <div class="gallery-item-caption">
+                                <strong>Fresh Produce Section</strong>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="{% static 'assets/gallery/products2.jpg' %}" alt="Grocery Items">
+                            <div class="gallery-item-caption">
+                                <strong>Grocery Items</strong>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="{% static 'assets/gallery/delivery.jpg' %}" alt="Delivery Service">
+                            <div class="gallery-item-caption">
+                                <strong>Home Delivery Service</strong>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="{% static 'assets/gallery/staff.jpg' %}" alt="Our Staff">
+                            <div class="gallery-item-caption">
+                                <strong>Our Friendly Staff</strong>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="{% static 'assets/gallery/checkout.jpg' %}" alt="Checkout">
+                            <div class="gallery-item-caption">
+                                <strong>Quick Checkout</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section cta">
+        <h2>Shop Fresh. Eat Healthy. Live Better.</h2>
+        <p>Join thousands of happy customers who trust our Easy Way for their daily grocery needs.</p>
+        <button><a href="products1.html" class="text-decoration-none text-success">Shop Now</a></button>
+    </section>
+
+    <script>
+        // Gallery Tab Switching Function
+        function switchTab(tabName) {
+            // Get all gallery content sections
+            const allContents = document.querySelectorAll('.gallery-content');
+            
+            // Hide all content sections using forEach
+            allContents.forEach(function(content) {
+                content.classList.remove('active');
+            });
+
+            // Get all tab buttons
+            const allButtons = document.querySelectorAll('.tab-button');
+            
+            // Remove active class from all buttons using forEach
+            allButtons.forEach(function(button) {
+                button.classList.remove('active');
+            });
+
+            // Show the selected content
+            const selectedContent = document.getElementById(tabName);
+            if (selectedContent) {
+                selectedContent.classList.add('active');
+            }
+
+            // Add active class to clicked button
+            const activeButton = document.querySelector(`[data-tab="${tabName}"]`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+        }
+
+        // Add click event listeners to all tab buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            
+            // Use forEach to add event listeners
+            tabButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    switchTab(tabName);
+                });
+            });
+
+            // Feedback form submission handler
+            const feedbackForm = document.getElementById('feedbackFormElement');
+            if (feedbackForm) {
+                feedbackForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Get form values
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const rating = document.getElementById('rating').value;
+                    const message = document.getElementById('message').value;
+                    
+                    // Display success message
+                    alert(`Thank you ${name}! Your feedback has been submitted successfully.`);
+                    
+                    // Reset form
+                    feedbackForm.reset();
+                });
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>

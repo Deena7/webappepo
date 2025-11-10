@@ -1,0 +1,431 @@
+.
+├── Dockerfile
+├── db.sqlite3
+├── docker-compose.yml
+├── file1
+├── grocery
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-313.pyc
+│   │   ├── admin.cpython-313.pyc
+│   │   ├── apps.cpython-313.pyc
+│   │   ├── forms.cpython-313.pyc
+│   │   ├── models.cpython-313.pyc
+│   │   └── views.cpython-313.pyc
+│   ├── admin.py
+│   ├── apps.py
+│   ├── forms.py
+│   ├── management
+│   │   └── commands
+│   │       ├── __pycache__
+│   │       │   └── hash_user_passwords.cpython-313.pyc
+│   │       └── hash_user_passwords.py
+│   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   ├── 0002_userlogin_userprofile_delete_customerdetail_and_more.py
+│   │   ├── 0003_remove_userlogin_mobile.py
+│   │   ├── 0004_rename_email_userlogin_username_and_more.py
+│   │   ├── 0005_rename_username_userlogin_name_and_more.py
+│   │   ├── 0006_order_product_salesperson_delete_userlogin.py
+│   │   ├── 0007_salesperson_password_alter_order_salesperson.py
+│   │   ├── 0008_category_alter_product_category.py
+│   │   ├── 0009_alter_product_category_delete_category.py
+│   │   ├── 0010_product_product_image.py
+│   │   ├── 0011_remove_salesperson_total_deliveries_and_more.py
+│   │   ├── 0012_order_user_orderitem.py
+│   │   ├── __init__.py
+│   │   └── __pycache__
+│   │       ├── 0001_initial.cpython-313.pyc
+│   │       ├── 0002_userlogin_userprofile_delete_customerdetail_and_more.cpython-313.pyc
+│   │       ├── 0003_remove_userlogin_mobile.cpython-313.pyc
+│   │       ├── 0004_rename_email_userlogin_username_and_more.cpython-313.pyc
+│   │       ├── 0005_rename_username_userlogin_name_and_more.cpython-313.pyc
+│   │       ├── 0006_order_product_salesperson_delete_userlogin.cpython-313.pyc
+│   │       ├── 0007_salesperson_password_alter_order_salesperson.cpython-313.pyc
+│   │       ├── 0008_category.cpython-313.pyc
+│   │       ├── 0008_category_alter_product_category.cpython-313.pyc
+│   │       ├── 0009_alter_product_category_delete_category.cpython-313.pyc
+│   │       ├── 0009_category_alter_product_category.cpython-313.pyc
+│   │       ├── 0009_create_categories_and_link_products.cpython-313.pyc
+│   │       ├── 0010_product_product_image.cpython-313.pyc
+│   │       ├── 0011_remove_salesperson_total_deliveries_and_more.cpython-313.pyc
+│   │       ├── 0012_order_user_orderitem.cpython-313.pyc
+│   │       └── __init__.cpython-313.pyc
+│   ├── models.py
+│   ├── static
+│   │   └── assets
+│   │       ├── banners
+│   │       │   ├── QR.jpg
+│   │       │   ├── about-banner.jpg
+│   │       │   ├── banner2.jpg
+│   │       │   ├── bannercarousel2.jpg
+│   │       │   ├── bannerimg1.jpg
+│   │       │   ├── bannerimgcarousel1.jpg
+│   │       │   ├── carousalbannerimg1.jpeg
+│   │       │   ├── carousalbannerimg2.jpg
+│   │       │   ├── carouselbannerimg3.jpg
+│   │       │   ├── carouselbannerimg4.jpg
+│   │       │   ├── carouselbannerimg5.jpg
+│   │       │   ├── carouselbannerimg6.jpg
+│   │       │   ├── carouselbannerimg8.jpg
+│   │       │   ├── carouselbannersimg7.jpg
+│   │       │   ├── discountbanner.png
+│   │       │   ├── free-home-delivery-lettering-quote-script-style-hand-drawn-poster-banner-isolated-white-background-vector-181529663.webp
+│   │       │   ├── indexpageimg.jpg
+│   │       │   └── pexels-n-voitkevich-8939255.jpg
+│   │       ├── bgimages
+│   │       │   ├── MR. PRASANTH REPORT.pdf
+│   │       │   ├── adminbg.jpg
+│   │       │   ├── adminbgimage.jpg
+│   │       │   ├── bgimage-1.webp
+│   │       │   ├── loginpagebgimage.jpg
+│   │       │   ├── modalimage.jpg
+│   │       │   ├── paymentbgimage.jpg
+│   │       │   ├── salepersonbgimage.jpg
+│   │       │   ├── salepersonsignupbgimage.jpg
+│   │       │   └── signuppagebgimage.jpg
+│   │       ├── butterimgages
+│   │       │   ├── butterimg1.webp
+│   │       │   ├── img2.webp
+│   │       │   ├── img3.webp
+│   │       │   └── img4.jpg
+│   │       ├── cardimages
+│   │       │   ├── img1.jpg
+│   │       │   ├── img2.jpg
+│   │       │   ├── img3.jpg
+│   │       │   ├── img4
+│   │       │   ├── img5.jpg
+│   │       │   ├── img6.jpg
+│   │       │   ├── img7.jpg
+│   │       │   └── img8.jpg
+│   │       ├── cheesesection
+│   │       │   ├── cheeseimg2.jpg
+│   │       │   ├── cheeseimg3.jpg
+│   │       │   ├── cheeseimg4.jpg
+│   │       │   └── cheesesection.jpg
+│   │       ├── chillipowder
+│   │       │   ├── Eastern-Chilli-Powder.webp
+│   │       │   ├── Eastern-Cumin-Powder.webp
+│   │       │   ├── Everest-Cumin-Powder.webp
+│   │       │   ├── Everest-Tikhalal-Powder-Pouch100g.webp
+│   │       │   ├── MTR-Spice-Jeera-Powder 100g.webp
+│   │       │   ├── aashirvaadchillipowder.webp
+│   │       │   ├── img1.jpg
+│   │       │   └── img2.webp
+│   │       ├── cleaningproducts
+│   │       │   ├── Ariel-Stain-Removal-Top-Load-Washing-Machine-Detergent-Liquid.webp
+│   │       │   ├── Beco-Natural-Floor-Cleaner-Liquid.webp
+│   │       │   ├── Dettol-Fresh-Lime-Liquid-Disinfectant.webp
+│   │       │   ├── Domex-Fresh-Guard-with-Ocean-Fresh-Fragrance-Disinfectant-Toilet-Cleaner.webp
+│   │       │   ├── Godrej-Fab-Machine-Hand-Wash-Detergent-Liquid-Refill-Pouch.webp
+│   │       │   ├── Harpic-Floral-Bathroom-Cleaner-Liquid-Removes-Bathroom-Stains.webp
+│   │       │   ├── Lizol-Kitchen-Cleaning-Spray-Cleans-Stove-Chimney-Sink.webp
+│   │       │   ├── Mr-Muscle-Mm-Kitchen-Clnr-Refill.webp
+│   │       │   ├── Rin-Matic-Top-Load-Detergent-Liquid-Pouch.webp
+│   │       │   ├── Surf-Excel-Matic-Top-Load-Detergent-Liquid-Pouch.webp
+│   │       │   ├── Vim-French-Lavender-With-Sage-Floor-Cleaner.webp
+│   │       │   └── Vooki-Toilet-Bowl-Cleaner-Liquid.webp
+│   │       ├── css
+│   │       │   ├── sales.css
+│   │       │   ├── style.css
+│   │       │   ├── style2.css
+│   │       │   └── style3.css
+│   │       ├── curdimges
+│   │       │   ├── curdimg1.webp
+│   │       │   ├── curdimg2.webp
+│   │       │   ├── curdimg3.webp
+│   │       │   └── curdimg4.webp
+│   │       ├── favicon
+│   │       │   └── favicon_io (5)
+│   │       │       ├── android-chrome-192x192.png
+│   │       │       ├── android-chrome-512x512.png
+│   │       │       ├── apple-touch-icon.png
+│   │       │       ├── favicon-16x16.png
+│   │       │       ├── favicon-32x32.png
+│   │       │       ├── favicon.ico
+│   │       │       └── site.webmanifest
+│   │       ├── garammasala
+│   │       │   ├── Aachi-Masala-Garam.webp
+│   │       │   ├── Everest-Garam-Masala.webp
+│   │       │   ├── MTR-Special-Garam-Masala.webp
+│   │       │   └── Tata-Sampann-Garam-Masala-Powder-with-Natural-Oils-Rich-Aroma-Flavour.webp
+│   │       ├── healthcare
+│   │       │   ├── Beardo-Whisky-Smoke-Bourbon-Perfume-For-Men-Eau-De-Parfum.webp
+│   │       │   ├── Cinthol-Lime-Bath-Soap.webp
+│   │       │   ├── Clinic-Plus-Strong-Long-Shampoo-with-Milk-Proteins-and-Multivitamins.webp
+│   │       │   ├── Dettol-Antiseptic-Liquid-For-First-Aid-Surface-Disinfection-And-Personal-Hygiene.webp
+│   │       │   ├── Dove-Hair-Fall-Rescue-Shampoo.webp
+│   │       │   ├── Fiama-Relax-Hand-Wash-400-ml-Bottle-Lavender-Ylang-Ylang.webp
+│   │       │   ├── Head-Shoulders-Anti-Dandruff-Smooth-Silky-Shampoo.webp
+│   │       │   ├── La-French-Cuddle-Perfume.webp
+│   │       │   ├── Lux-International-Creamy-White-Soap-Bar.webp
+│   │       │   ├── Medimix-Ayurvedic-Classic-18-Herbs-Soap.webp
+│   │       │   ├── Meera-Hairfall-Care-Shampoo.webp
+│   │       │   ├── Palmolive-Black-Orchid-And-Milk-Liquid-Hand-Wash.webp
+│   │       │   ├── Pears-Moisturising-Bathing-Bar-Soap-with-Glycerine-Pure-Gentle-For-Golden-Glow.webp
+│   │       │   ├── Santoor-Foaming-Handwash.webp
+│   │       │   ├── Villain-Oud-Eau-De-Parfumpremium-Luxury-Perfume-For-Men.webp
+│   │       │   └── Wild-Stone-Edge-Perfume-for-Men.webp
+│   │       ├── images
+│   │       │   ├── 800w-V5Jc3vwV1Wk.webp
+│   │       │   ├── adminlogo.webp
+│   │       │   ├── fan-lollypop.png
+│   │       │   ├── modalbgimg2.html
+│   │       │   ├── modalbgimg2_files
+│   │       │   │   ├── 1652-a550633a3058d915.js
+│   │       │   │   ├── 1821-8d482f9540faadd2.js
+│   │       │   │   ├── 2037-98d361880368c618.js
+│   │       │   │   ├── 2074.baca4f8db7c4ce81.js
+│   │       │   │   ├── 2181-6bf88ddca339b8cd.js
+│   │       │   │   ├── 2196.e6c8689bc08df449.js
+│   │       │   │   ├── 2523-710b7a6d7b8c24ab.js
+│   │       │   │   ├── 2552-2958f7a120df5ecd.js
+│   │       │   │   ├── 2690-b30232f0d356ad1f.js
+│   │       │   │   ├── 2962-7736d93df774fc46.js
+│   │       │   │   ├── 3377-e4ef067535849b0a.js
+│   │       │   │   ├── 3473-2c712839ec655b29.js
+│   │       │   │   ├── 3a4f4fdabf1f239d.css
+│   │       │   │   ├── 3d-rendering-cartoon-shopping-cart_23-2151680650.jpg
+│   │       │   │   ├── 4170-2eff50dbaa1b1197.js
+│   │       │   │   ├── 4492-fb5cdc11971eecc6.js
+│   │       │   │   ├── 4700-fcf171299189ce86.js
+│   │       │   │   ├── 4f4959459e937465.css
+│   │       │   │   ├── 5264-37a763759ead5c05.js
+│   │       │   │   ├── 544f3dd743d08959.css
+│   │       │   │   ├── 5817-17e4c5d502e42a3a.js
+│   │       │   │   ├── 582-5af9df7188b0cec2.js
+│   │       │   │   ├── 59209d4f8d9cd522.css
+│   │       │   │   ├── 6076-d2737c5975be1487.js
+│   │       │   │   ├── 6229-598b36f70e41528b.js
+│   │       │   │   ├── 6240-765ba6a70d652098.js
+│   │       │   │   ├── 6403-46bc7a313e3f8abf.js
+│   │       │   │   ├── 7092-eb10ec2cb1ac4813.js
+│   │       │   │   ├── 710b68f56e956bb2.css
+│   │       │   │   ├── 7321-d68790b929abc2cd.js
+│   │       │   │   ├── 7356-2a16898cdc7f0ae0.js
+│   │       │   │   ├── 738-7d60b9f4c8596ef6.js
+│   │       │   │   ├── 7634-16d7ecd0ef828095.js
+│   │       │   │   ├── 7c03108f20255e63.css
+│   │       │   │   ├── 8058-9660667b49205d83.js
+│   │       │   │   ├── 8780.7bc79c2e0abab4a7.js
+│   │       │   │   ├── 88b572f1f6aab020.css
+│   │       │   │   ├── 9582-93f982d84fb3d273.js
+│   │       │   │   ├── [...param]-0ffbefae46ee1595.js
+│   │       │   │   ├── _app-eb80c3d06e639e20.js
+│   │       │   │   ├── _buildManifest.js
+│   │       │   │   ├── _ssgManifest.js
+│   │       │   │   ├── a560a8b2abac9e48.css
+│   │       │   │   ├── abstract-blur-book-bookshelves-bookstore_1232-4958.jpg
+│   │       │   │   ├── abstract-blur-defocused-supermarket-background_1339-130480.jpg
+│   │       │   │   ├── abstract-blur-defocused-supermarket_1203-9477.jpg
+│   │       │   │   ├── abstract-blur-defocused-supermarket_1339-129327.jpg
+│   │       │   │   ├── abstract-blur-defocused-supermarket_1339-129329.jpg
+│   │       │   │   ├── abstract-blur-shopping-mall_1203-8527.jpg
+│   │       │   │   ├── abstract-blur-shopping-mall_1203-8822.jpg
+│   │       │   │   ├── abstract-blur-shopping-mall_1203-8823.jpg
+│   │       │   │   ├── abstract-blur-shopping-mall_74190-4608.jpg
+│   │       │   │   ├── abstract-blur-shopping-mall_74190-5254.jpg
+│   │       │   │   ├── abstract-blur-supermarket-department-store_1203-8782.jpg
+│   │       │   │   ├── abstract-blur-supermarket-department-store_74190-5234.jpg
+│   │       │   │   ├── abstract-blur-supermarket-retail-store_74190-7546.jpg
+│   │       │   │   ├── abstract-blur-supermarket_1203-8862.jpg
+│   │       │   │   ├── abstract-blur-supermarket_1203-8864.jpg
+│   │       │   │   ├── abstract-blur-supermarket_1339-4315.jpg
+│   │       │   │   ├── abstract-blur-supermarket_1339-4320.jpg
+│   │       │   │   ├── abstract-blur-supermarket_1339-69797.jpg
+│   │       │   │   ├── abstract-blur-supermarket_74190-4403.jpg
+│   │       │   │   ├── abstract-blur-supermarket_74190-5265.jpg
+│   │       │   │   ├── abstract-blurred-supermarket-aisle-with-colorful-shelves-unrecognizable-customers_56345-301.jpg
+│   │       │   │   ├── abstract-blurred-supermarket-aisles-background-stock-photo_660575-1551.jpg
+│   │       │   │   ├── abstract-supermarket-grocery-store-blurred-defocused-background-with-bokeh-light_293060-4294.jpg
+│   │       │   │   ├── abundance-healthy-food-choices-supermarket-aisle-generated-by-ai_188544-42447(1).jpg
+│   │       │   │   ├── abundance-healthy-food-choices-supermarket-aisle-generated-by-ai_188544-42447.jpg
+│   │       │   │   ├── ai-images_1247965-9442.jpg
+│   │       │   │   ├── aisle-grocery-store-shelves-vector-background_107791-19118.jpg
+│   │       │   │   ├── alcoholic-beverages-are-supermarkets_1048944-11638948.jpg
+│   │       │   │   ├── b3a68a157ae3bfa6.css
+│   │       │   │   ├── b5684b5452d8a284.css
+│   │       │   │   ├── b715194337551c46.css
+│   │       │   │   ├── b8e302d41b271438.css
+│   │       │   │   ├── black-friday-sale-shopping-cart-banner-with-text-space_1017-28049.jpg
+│   │       │   │   ├── blurred-shelves-with-food_1203-840.jpg
+│   │       │   │   ├── blurry-image-grocery-store-with-many-shelves-displays_179755-40039.jpg
+│   │       │   │   ├── blurry-supermarket-aisles_23-2151945648.jpg
+│   │       │   │   ├── blurry-supermarket-aisles_23-2151945659.jpg
+│   │       │   │   ├── client
+│   │       │   │   ├── close-up-multi-colored-lights-row_1048944-3772154.jpg
+│   │       │   │   ├── close-up-multi-colored-pencils-store_1048944-14410287.jpg
+│   │       │   │   ├── default_01.png
+│   │       │   │   ├── defocused-image-illuminated-store_1048944-769734.jpg
+│   │       │   │   ├── defocused-image-supermarket_1048944-18080553.jpg
+│   │       │   │   ├── ef46db3751d8e999.css
+│   │       │   │   ├── empty-top-wooden-table-with-supermarket-blur-background_36051-467.jpg
+│   │       │   │   ├── framework-235d946df266af2e.js
+│   │       │   │   ├── freepikcompany.png
+│   │       │   │   ├── gradient-supermarket-webinar-template_23-2149361396.jpg
+│   │       │   │   ├── hand-drawn-pattern-background_23-2150822444.jpg
+│   │       │   │   ├── main-7593cafa0229388e.js
+│   │       │   │   ├── otBannerSdk.js
+│   │       │   │   ├── otSDKStub.js
+│   │       │   │   ├── perspective-view-supermarket-aisle-supermarket-with-colorful-shelves-merchandise_273525-987.jpg
+│   │       │   │   ├── pet-shop-interior-with-dog-toy-cat-store-aisle_107791-20107.jpg
+│   │       │   │   ├── polyfills-42372ed130431b0a.js
+│   │       │   │   ├── powered_by_logo.svg
+│   │       │   │   ├── refrigerator-with-food_1203-842.jpg
+│   │       │   │   ├── right.webp
+│   │       │   │   ├── saved_resource(1).html
+│   │       │   │   ├── saved_resource.html
+│   │       │   │   ├── search-aec32df5f320b168.js
+│   │       │   │   ├── style
+│   │       │   │   ├── super-sale-discount-banner-template-promotion_8829-2534.jpg
+│   │       │   │   ├── supermarket-aisle-perspective-view_107791-19303.jpg
+│   │       │   │   ├── supermarket-blurred-defocused-background-creative-projects_841543-59570.jpg
+│   │       │   │   ├── supermarket-store-aisle-interior-abstract-blurred-background_979131-3855.jpg
+│   │       │   │   ├── tabletop-looking-out-market_23-2147701294.jpg
+│   │       │   │   ├── various-objects-shelves-supermarket-sale_1048944-5055019.jpg
+│   │       │   │   ├── web-vitals.attribution.iife.js
+│   │       │   │   ├── webpack-2f36f64f8f640312.js
+│   │       │   │   ├── wideangle-view-grocery-store-aisle-with-stocked-shelves_337384-225038.jpg
+│   │       │   │   ├── wood-table-with-abstract-blur-supermarket-discount-store-aisle-seasoning-sauce-product-bottle-shelves_293060-2822.jpg
+│   │       │   │   ├── wood-table-wood-floor-with-supermarket-blur-background-product-display_35652-313.jpg
+│   │       │   │   └── wood-table-wood-floor-with-supermarket-blur-background-product-display_35652-383.jpg
+│   │       │   ├── modalimg.png
+│   │       │   ├── modalimg2.jpg
+│   │       │   ├── navbar2image.png
+│   │       │   ├── navbarimage.jpg
+│   │       │   └── salesimg.jpeg
+│   │       ├── instandproducts
+│   │       │   ├── BORGES-Mini-Penne-Rigate-Durum-Wheat-Pasta.webp
+│   │       │   ├── Bambino-Elbow-Macaroni-Pasta.webp
+│   │       │   ├── Chef-s-Basket-Macroni.webp
+│   │       │   ├── Ching-s-Secret-Sweet-Corn-Soup.webp
+│   │       │   ├── Chings-Instant-Soup-Hot-And-Sour.webp
+│   │       │   ├── Knorr-Chinese-Hot-And-Sour-Veg-Soup.webp
+│   │       │   ├── Knorr-International-Mexican-Tomato-Corn-Soup.webp
+│   │       │   ├── MAGGI-2-Minute-Instant-Noodles-Masala-Noodles-Made-With-Quality-Spices.webp
+│   │       │   ├── MAGGI-Pazzta-Instant-Pasta-Cheese-Macaroni.webp
+│   │       │   ├── Manna-Supergrains-Oats-Palak-Khichdi.webp
+│   │       │   ├── Quaker-Oats.webp
+│   │       │   ├── Saffola-Oats-Instant-Rolled-Oats-Soft-Creamy-Oats-Power-of-Protein-Iron-Fibre.webp
+│   │       │   ├── Sundrop-Heart-Plain-Oats.webp
+│   │       │   ├── Too-Yumm-K-Bomb-Ramen-Hot-n-Spicy-Instant-Noodles-Korean-Veg.webp
+│   │       │   ├── Wok-Tok-by-Veeba-Instant-Cup-Noodles-Chowmein.webp
+│   │       │   └── yippee.webp
+│   │       ├── milksection
+│   │       │   ├── milkimg1.jpg
+│   │       │   ├── milkimg2.jpg
+│   │       │   ├── milkimg3.jpg
+│   │       │   ├── milkimg4.jpg
+│   │       │   └── milkimg5.jpg
+│   │       ├── product_images
+│   │       ├── riceimages
+│   │       │   ├── 24-Mantra-Organic-Sonamasuri-Raw-Rice-Polished.webp
+│   │       │   ├── Daawat-Super-Basmati-Rice-Long-Grain.webp
+│   │       │   ├── Daily-Good-Brown-Rice.webp
+│   │       │   ├── Daily-Good-Idli-Rice.webp
+│   │       │   ├── Daily-Good-Sona-Masoori-Raw-Rice.webp
+│   │       │   ├── img1.jpeg
+│   │       │   ├── img10.jpeg
+│   │       │   ├── img11.jpeg
+│   │       │   ├── img12.jpeg
+│   │       │   ├── img13.jpeg
+│   │       │   ├── img2.jpeg
+│   │       │   ├── img3.jpeg
+│   │       │   ├── img4.jpeg
+│   │       │   ├── img5.jpeg
+│   │       │   ├── img6.jpeg
+│   │       │   ├── img7.jpeg
+│   │       │   ├── img8.jpeg
+│   │       │   └── img9.jpeg
+│   │       └── turmericimges
+│   │           ├── img1.jpg
+│   │           ├── img2.jpg
+│   │           ├── img3.jpg
+│   │           └── img4.jpg
+│   ├── templates
+│   │   ├── about.html
+│   │   ├── add_product.html
+│   │   ├── admin_dashboard.html
+│   │   ├── admin_login.html
+│   │   ├── cart.html
+│   │   ├── dummy_payment.html
+│   │   ├── home.html
+│   │   ├── login.html
+│   │   ├── my_orders.html
+│   │   ├── payment_success.html
+│   │   ├── products1.html
+│   │   ├── salesperson_dashboard.html
+│   │   ├── salesperson_login.html
+│   │   ├── salesperson_signup.html
+│   │   ├── signup.html
+│   │   └── user_details.html
+│   ├── templatetags
+│   │   └── __pycache__
+│   │       └── salesperson_filters.cpython-313.pyc
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── manage.py
+├── media
+│   └── products
+│       ├── Ariel-Stain-Removal-Top-Load-Washing-Machine-Detergent-Liquid.webp
+│       ├── Chings-Instant-Soup-Hot-And-Sour.webp
+│       ├── Cinthol-Lime-Bath-Soap.webp
+│       ├── Daawat-Super-Basmati-Rice-Long-Grain.webp
+│       ├── Dettol-Antiseptic-Liquid-For-First-Aid-Surface-Disinfection-And-Personal-Hygiene.webp
+│       ├── Eastern-Chilli-Powder.webp
+│       ├── Eastern-Cumin-Powder.webp
+│       ├── Everest-Cumin-Powder.webp
+│       ├── Everest-Tikhalal-Powder-Pouch100g.webp
+│       ├── Godrej-Fab-Machine-Hand-Wash-Detergent-Liquid-Refill-Pouch.webp
+│       ├── Godrej-Fab-Machine-Hand-Wash-Detergent-Liquid-Refill-Pouch_J99IQMw.webp
+│       ├── Lux-International-Creamy-White-Soap-Bar.webp
+│       ├── MAGGI-2-Minute-Instant-Noodles-Masala-Noodles-Made-With-Quality-Spices.webp
+│       ├── MAGGI-2-Minute-Instant-Noodles-Masala-Noodles-Made-With-Quality-Spices_cE6H4XZ.webp
+│       ├── MTR-Spice-Jeera-Powder_100g.webp
+│       ├── Medimix-Ayurvedic-Classic-18-Herbs-Soap.webp
+│       ├── Medimix-Ayurvedic-Classic-18-Herbs-Soap_NRF6wrO.webp
+│       ├── Pears-Moisturising-Bathing-Bar-Soap-with-Glycerine-Pure-Gentle-For-Golden-Glow.webp
+│       ├── Rin-Matic-Top-Load-Detergent-Liquid-Pouch.webp
+│       ├── Surf-Excel-Matic-Top-Load-Detergent-Liquid-Pouch.webp
+│       ├── Too-Yumm-K-Bomb-Ramen-Hot-n-Spicy-Instant-Noodles-Korean-Veg.webp
+│       ├── Wok-Tok-by-Veeba-Instant-Cup-Noodles-Chowmein.webp
+│       ├── aashirvaadchillipowder.webp
+│       ├── cheeseimg2.jpg
+│       ├── cheeseimg3.jpg
+│       ├── cheeseimg4.jpg
+│       ├── cheesesection.jpg
+│       ├── curdimg2.webp
+│       ├── curdimg4.webp
+│       ├── img1.jpeg
+│       ├── img1.jpg
+│       ├── img1_L1CAUrY.jpg
+│       ├── img2.jpeg
+│       ├── img2.webp
+│       ├── img2_MK5STCX.jpeg
+│       ├── img3.jpeg
+│       ├── img4.jpeg
+│       ├── img5.jpeg
+│       ├── img6.jpeg
+│       ├── img7.jpeg
+│       ├── img8.jpeg
+│       ├── milkimg1.jpg
+│       ├── milkimg2.jpg
+│       ├── milkimg4.jpg
+│       ├── milkimg5.jpg
+│       └── yippee.webp
+├── requirements.txt
+├── shop
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-313.pyc
+│   │   ├── settings.cpython-313.pyc
+│   │   ├── urls.cpython-313.pyc
+│   │   └── wsgi.cpython-313.pyc
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+└── static
+
+38 directories, 391 files

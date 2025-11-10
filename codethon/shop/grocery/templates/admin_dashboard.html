@@ -1,0 +1,930 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy way admin</title>
+    <link rel="icon" href="{% static 'assets/images/navbar2image.png' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'assets/css/style3.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://kit.fontawesome.com/b421bddb66.js" crossorigin="anonymous"></script>
+    <link rel="icon" href="{% static 'assets/images/navbar2image.png' %}">
+    <style>
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #dc3545;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .notification-btn {
+            position: relative;
+        }
+        .low-stock-item {
+            border-left: 4px solid #dc3545;
+        }
+        .stock-percentage {
+            font-weight: bold;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container-fluid">
+    {% comment %} <div>
+        <span> Location <i class="fa-solid fa-location-dot"></i></span><br>
+        <span>600002</span>
+     </div> {% endcomment %}
+    <!-- Logo + Brand -->
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img src="{% static 'assets/images/navbar2image.png' %}" alt="Logo" width="60px" height="60px" class="me-2 rounded">
+      <span class="fw-bold fs-4">Easy Way</span>
+    </a>
+
+    <!-- Toggler for mobile -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="#" id="dashboard"><i class="bi bi-house-door-fill"></i> Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" id="productpage"><i class="bi bi-box-seam"></i> Products</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" id="orders"><i class="bi bi-clipboard-check"></i> Orders</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" id="salesperson"><i class="bi bi-people-fill"></i> Salespersons</a>
+        </li>
+
+        <!-- Notification Button -->
+        <li class="nav-item">
+          <a class="nav-link notification-btn" href="#" data-bs-toggle="modal" data-bs-target="#notificationModal">
+            <i class="bi bi-bell-fill"></i> Notifications
+            <span class="notification-badge" id="notificationBadge" style="display:none;">0</span>
+          </a>
+        </li>
+
+        <!-- Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
+            <i class="bi bi-person-circle"></i> Admin
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Settings</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{% url 'admin_logout' %}"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Notification Modal -->
+<div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="notificationModalLabel">
+          <i class="bi bi-exclamation-triangle-fill"></i> Low Stock Alerts
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="notificationContent">
+          <p class="text-muted text-center">Loading notifications...</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+ <div id="homepage">
+<section>
+ 
+   <div class="container my-4">
+  <h1 class="mb-4">Dashboard Overview</h1>
+
+  <div class="row g-4">
+    <!-- Products -->
+    <div class="col-md-3">
+      <div class="card text-white bg-danger shadow dashboard-card">
+        <div class="card-body d-flex flex-column align-items-center justify-content-center">
+          <h4 class="card-title mb-3">Total Products</h4>
+          <span class="dashboard-value">{{ total_products }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orders -->
+    <div class="col-md-3">
+      <div class="card text-white bg-primary shadow dashboard-card">
+        <div class="card-body d-flex flex-column align-items-center justify-content-center">
+          <h4 class="card-title mb-3">Total Orders</h4>
+          <span class="dashboard-value">{{ total_orders }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pending Orders -->
+    <div class="col-md-3">
+      <div class="card text-white bg-success shadow dashboard-card">
+        <div class="card-body d-flex flex-column align-items-center justify-content-center">
+          <h4 class="card-title mb-3">Pending Orders</h4>
+          <span class="dashboard-value">{{ pending_orders }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Salespersons -->
+    <div class="col-md-3">
+      <div class="card text-dark bg-light shadow dashboard-card">
+        <div class="card-body d-flex flex-column align-items-center justify-content-center">
+          <h4 class="card-title mb-3">Sales Persons</h4>
+          <span class="dashboard-value">{{ total_salespersons }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="row">
+  <div class="col-lg-8 col-md-12">
+<!--section for table to view the orders from customer-->
+     <table class="table">
+        <h1 class="bg-dark text-light tablehead">Recent Orders</h1>
+        <thead>
+            <th>Order Id </th>
+            <th>Customer</th>
+            <th>Amount</th>
+            <th>Status</th>
+           </thead>
+           <tbody>
+            {% for order in recent_orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.customer_name }}</td>
+                <td>{{ order.total_amount }}</td>
+                <td>{{ order.status }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center text-muted">No recent orders.</td>
+            </tr>
+            {% endfor %}
+           </tbody>
+     </table>
+  </div>
+  <!--side card to add items in the stock-->
+ 
+    <div class="col-lg-4 col-md-12">
+      <div class="card">
+        <div class="card-head p-3">
+          <h1>Overview</h1>
+        </div>
+        <div class="card-body">
+          <div class="d-grid gap-2">
+           <a href="{% url 'add_product' %}" ><button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#dashboardproductModal">
+              <i class="bi bi-plus-circle"></i> Add New Product
+            </button></a>
+            <a href="#orders-section"> <button class="btn btn-outline-success">
+              <i class="bi bi-eye"></i> View All Orders
+            </button></a>
+            <!--<button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#salespersonpageModal">
+              <i class="bi bi-person-plus"></i> Add Salesperson
+            </button>-->
+          </div>
+        </div>
+      </div>
+    </div>
+<section>
+     <!--add new salesperson section-->
+
+       <!-- <div class="modal fade" id="salespersonpageModal" tabindex="-1" aria-hidden="true">
+               <div class="modal-dialog modal-lg">
+               <div class="modal-content">
+      
+       Modal Header
+        <div class="modal-header">
+        <h5 class="modal-title">Add New salesperson</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+         </div> -->
+
+        <!-- Modal Body 
+       <div class="modal-body">
+        <table class="table table-bordered text-center" id="salespersonpageTable">
+          <thead class="table-light">
+            <tr>
+              <th>ID</th>
+              <th>salesperson Name</th>
+              <th>phone no</th>
+              <th>vehicle type</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Rows will be added here dynamically 
+          </tbody>
+        </table>
+        <button class="btn btn-sm btn-dark mt-2" id="addnewBtn">
+          <i class="bi bi-plus"></i> Add Row
+        </button>
+      </div>
+
+       Modal Footer 
+      <div class="modal-footer">
+        <button class="btn btn-success">Save</button>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+</section>-->
+
+<!--modal for add new product to the stock
+<section>
+       <!-- <button type="button" class="btn-close" data-bs-dismiss="modal"><a href="{% url 'add_product' %}"> </a></button>
+      
+      Modal Header -->
+      <!--<div class="modal-header">
+        <h5 class="modal-title">Add New Product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+       Modal Body 
+      <div class="modal-body">
+        <table class="table table-bordered text-center" id="productTable">
+          <thead class="table-light">
+            <tr>
+              <th>ID</th>
+              <th>Product Name</th>
+              <th>Category</th>
+              <th>Quantity</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            Rows will be added here dynamically 
+          </tbody>
+        </table>
+        <button class="btn btn-sm btn-dark mt-2" id="addRowBtn">
+          <i class="bi bi-plus"></i> Add Row
+        </button>
+      </div>
+
+       Modal Footer 
+      <div class="modal-footer">
+        <button class="btn btn-success">Save</button>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+
+    </div>-->
+  </div>
+</div>
+</section>
+</div>
+</div>
+
+
+ <!--products page-->
+<section>
+    <div id="products-section" style="display:none;">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Product Management</h2>
+               <a href="{% url 'add_product' %}"> <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productpageModal">
+                    Add New Product
+                </button></a>
+            </div>
+           
+    
+
+
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Product Name</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="products-table">
+                              {% for p in products %}
+                                <tr>
+                                    <td>{{ p.id }}</td>
+                                    <td>{{ p.product_name }}</td>
+                                    <td>{{ p.category }}</td>
+                                    <td>{{ p.price }}</td>
+                                    <td>{{ p.stock }}</td>
+                                    <td>{{ p.status }}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i> Edit</button>
+                                        <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> Delete</button>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                             
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted">No products available. Click "Add New Product" to get started.</td>
+                                </tr>
+                                 {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    </div>
+</section>
+
+<!-- Product Edit Modal -->
+<div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editProductForm">
+                    <input type="hidden" id="editProductId">
+                    <div class="mb-3">
+                        <label for="editProductName" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" id="editProductName" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editProductStock" class="form-label">Stock</label>
+                        <input type="number" class="form-control" id="editProductStock" min="0">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveProductChanges">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--orders page-->
+
+  <section>
+ 
+ <div id="orders-section" style="display:none;">
+            <h2 class="mb-4">Order Management</h2>
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer Name</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Total Amount</th>
+                                    <th>Status</th>
+                                    <th>Salesperson</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody id="orders-table">
+                                {% for order in all_orders %}
+                                    <tr>
+                                        <td>{{ order.id }}</td>
+                                        <td>{{ order.customer_name }}</td>
+                                        <td>{{ order.phone }}</td>
+                                        <td>{{ order.address }}</td>
+                                        <td>Rs. {{ order.total_amount|floatformat:2 }}</td>
+                                        <td>
+                                            <span class="badge {% if order.status == 'Pending' %}bg-warning{% elif order.status == 'Completed' %}bg-success{% else %}bg-danger{% endif %}">{{ order.status }}</span>
+                                        </td>
+                                        <td>
+                                            {% if order.salesperson %}
+                                                {{ order.salesperson.name }}
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="7" class="text-center text-muted">No orders available yet.</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+  </section>
+  <!--salesperson section-->
+ <section>
+        <div id="salespersons-section" style="display: none;">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Salesperson Management</h2>
+                <!--<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#salespersonModal">
+                    <i class="bi bi-person-plus"></i> Add New Salesperson
+                </button>-->
+            </div>
+           
+             <!--add new salesperson section-->
+
+      <div class="modal fade" id="salespersonModal" tabindex="-1" aria-hidden="true">
+               <div class="modal-dialog modal-lg">
+               <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <!--<div class="modal-header">
+        <h5 class="modal-title">Add New salesperson</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+         </div>-->
+
+        <!-- Modal Body -->
+       <div class="modal-body">
+        <table class="table table-bordered text-center" id="salespersonTable">
+          <thead class="table-light">
+            <tr>
+              <th>ID</th>
+              <th>salesperson Name</th>
+              <th>phone no</th>
+              <th>vehicle type</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Rows will be added here dynamically -->
+          </tbody>
+        </table>
+        <button class="btn btn-sm btn-dark mt-2" id="addnewBtn">
+          <i class="bi bi-plus"></i> Add Row
+        </button>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button class="btn btn-success">Save</button>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Vehicle Type</th>
+                                    <th>Status</th>
+                                    <th>Availability</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="salespersons-table">
+                                {% for salesperson in active_salespersons %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ salesperson.name }}</td>
+                                    <td>{{ salesperson.phone }}</td>
+                                    <td>{{ salesperson.email }}</td>
+                                    <td>{{ salesperson.vehicle_type }}</td>
+                                    <td><span class="badge bg-success">{{ salesperson.status }}</span></td>
+                                    <td>
+                                        {% if salesperson.is_available %}
+                                            <span class="badge bg-success">Available</span>
+                                        {% else %}
+                                            <span class="badge bg-warning">Assigned</span>
+                                        {% endif %}
+                                   </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> Delete</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                                {% for salesperson in inactive_salespersons %}
+                                <tr>
+                                    <td>{{ forloop.counter|add:active_salespersons.count }}</td>
+                                    <td>{{ salesperson.name }}</td>
+                                    <td>{{ salesperson.phone }}</td>
+                                    <td>{{ salesperson.email }}</td>
+                                    <td>{{ salesperson.vehicle_type }}</td>
+                                    <td><span class="badge bg-danger">{{ salesperson.status }}</span></td>
+                                    <td>
+                                        {% if salesperson.is_available %}
+                                            <span class="badge bg-success">Available</span>
+                                        {% else %}
+                                            <span class="badge bg-warning">Assigned</span>
+                                        {% endif %}
+                                   </td>
+                                    <td>
+                                        <form action="{% url 'approve_salesperson' salesperson.id %}" method="post" style="display:inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-sm btn-success"><i class="bi bi-check-circle"></i> Approve</button>
+                                        </form>
+                                        <button class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i> Edit</button>
+                                        <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> Delete</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                                {% if not active_salespersons and not inactive_salespersons %}
+                                <tr>
+                                    <td colspan="8" class="text-center text-muted">No salespersons available. Click "Add New Salesperson" to get started.</td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+ </section>
+
+<script>
+  // Store low stock products data for notification checking
+  let lowStockProductsData = [
+    {% for p in low_stock_products %}
+    {
+      id: {{ p.id }},
+      name: "{{ p.product_name }}",
+      stock: {{ p.stock }},
+      category: "{{ p.category }}",
+      price: "{{ p.price }}"
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ];
+
+  // Function to check low stock and update notifications
+  function checkLowStock() {
+    // Update badge count
+    let badge = document.getElementById('notificationBadge');
+    if (lowStockProductsData.length > 0) {
+      badge.textContent = lowStockProductsData.length;
+      badge.style.display = 'block';
+    } else {
+      badge.style.display = 'none';
+    }
+
+    // Update notification content
+    let notificationContent = document.getElementById('notificationContent');
+    if (lowStockProductsData.length === 0) {
+      notificationContent.innerHTML = `
+        <div class="text-center p-4">
+          <i class="bi bi-check-circle text-success" style="font-size: 48px;"></i>
+          <p class="mt-3 text-muted">All products are well stocked!</p>
+        </div>
+      `;
+    } else {
+      let html = '<div class="list-group">';
+      lowStockProductsData.forEach(product => {
+        html += `
+          <div class="list-group-item low-stock-item mb-2">
+            <div class="d-flex w-100 justify-content-between align-items-start">
+              <div>
+                <h6 class="mb-1"><i class="bi bi-box-seam text-danger"></i> ${product.name}</h6>
+                <p class="mb-1 text-muted small">Category: ${product.category}</p>
+                <p class="mb-1 text-muted small">Price: Rs. ${product.price}</p>
+              </div>
+              <span class="stock-percentage">Stock: ${product.stock}</span>
+            </div>
+            <div class="mt-2">
+              <small class="text-danger">
+                <i class="bi bi-exclamation-triangle-fill"></i> 
+                Only ${product.stock} items left!
+              </small>
+            </div>
+            <div class="mt-2">
+              <span class="badge bg-danger">Reorder Required</span>
+            </div>
+          </div>
+        `;
+      });
+      html += '</div>';
+      notificationContent.innerHTML = html;
+    }
+  }
+
+  // Check low stock when page loads
+  document.addEventListener('DOMContentLoaded', function() {
+    checkLowStock();
+  });
+
+  //product page section
+    let productpage=document.getElementById('productpage');
+    let productsection=document.getElementById('products-section');
+    let homepage=document.getElementById('homepage');
+    let dashboard=document.getElementById('dashboard');
+    let orderssection=document.getElementById('orders-section');
+    let orders=document.getElementById('orders');
+    let salespersonsection=document.getElementById('salespersons-section');
+    let salesperson=document.getElementById('salesperson');
+
+    // product section function
+    productpage.addEventListener('click',(event)=>{
+       event.preventDefault();
+       productsection.style.display='block';
+       homepage.style.display='none';
+       orderssection.style.display='none';
+       salespersonsection.style.display='none';
+    })
+
+    //dashboard section function
+    dashboard.addEventListener('click',(event)=>{
+       event.preventDefault();
+      homepage.style.display='block';
+      productsection.style.display='none';
+      orderssection.style.display='none';
+      salespersonsection.style.display='none';
+
+    })
+
+    //orders section function
+    orders.addEventListener('click',(event)=>{
+       event.preventDefault();
+      homepage.style.display='none';
+      orderssection.style.display='block';
+       productsection.style.display='none';
+       salespersonsection.style.display='none';
+    })
+   //salesperson section function
+     salesperson.addEventListener('click',(event)=>{
+       event.preventDefault();
+      homepage.style.display='none';
+      orderssection.style.display='none';
+       productsection.style.display='none';
+       salespersonsection.style.display='block';
+    })
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ordersLink = document.getElementById('orders');
+        if (ordersLink) {
+            ordersLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                document.getElementById('homepage').style.display = 'none';
+                document.getElementById('products-section').style.display = 'none';
+                document.getElementById('salespersons-section').style.display = 'none';
+                document.getElementById('orders-section').style.display = 'block';
+            });
+        }
+    });
+</script>
+
+
+   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to get CSRF token
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            const csrftoken = getCookie('csrftoken');
+
+            // Navigation functionality
+            const productpage = document.getElementById('productpage');
+            const productsection = document.getElementById('products-section');
+            const homepage = document.getElementById('homepage');
+            const dashboard = document.getElementById('dashboard');
+            const orderssection = document.getElementById('orders-section');
+            const orders = document.getElementById('orders');
+            const salespersonsection = document.getElementById('salespersons-section');
+            const salesperson = document.getElementById('salesperson');
+
+            productpage.addEventListener('click', (event) => {
+                event.preventDefault();
+                productsection.style.display = 'block';
+                homepage.style.display = 'none';
+                orderssection.style.display = 'none';
+                salespersonsection.style.display = 'none';
+            });
+
+            dashboard.addEventListener('click', (event) => {
+                event.preventDefault();
+                homepage.style.display = 'block';
+                productsection.style.display = 'none';
+                orderssection.style.display = 'none';
+                salespersonsection.style.display = 'none';
+            });
+
+            orders.addEventListener('click', (event) => {
+                event.preventDefault();
+                homepage.style.display = 'none';
+                orderssection.style.display = 'block';
+                productsection.style.display = 'none';
+                salespersonsection.style.display = 'none';
+            });
+
+            salesperson.addEventListener('click', (event) => {
+                event.preventDefault();
+                homepage.style.display = 'none';
+                orderssection.style.display = 'none';
+                productsection.style.display = 'none';
+                salespersonsection.style.display = 'block';
+            });
+
+            // Orders link in the second script block - to be removed
+            const ordersLink = document.getElementById('orders');
+            if (ordersLink) {
+                ordersLink.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    document.getElementById('homepage').style.display = 'none';
+                    document.getElementById('products-section').style.display = 'none';
+                    document.getElementById('salespersons-section').style.display = 'none';
+                    document.getElementById('orders-section').style.display = 'block';
+                });
+            }
+
+            // Product Edit functionality
+            document.addEventListener('click', function(event) {
+                if (event.target.classList.contains('btn-warning') && event.target.textContent.includes('Edit')) {
+                    const row = event.target.closest('tr');
+                    const productId = row.children[0].textContent;
+                    const productName = row.children[1].textContent;
+                    const productStock = row.children[4].textContent;
+
+                    document.getElementById('editProductId').value = productId;
+                    document.getElementById('editProductName').value = productName;
+                    document.getElementById('editProductStock').value = productStock;
+
+                    const editProductModal = new bootstrap.Modal(document.getElementById('editProductModal'));
+                    editProductModal.show();
+                }
+            });
+
+            document.getElementById('saveProductChanges').addEventListener('click', function() {
+                const productId = document.getElementById('editProductId').value;
+                const newStock = document.getElementById('editProductStock').value;
+
+                console.log(`DEBUG JS: Attempting to save product. Product ID: ${productId}, New Stock: ${newStock}`);
+
+                fetch(`/grocery/edit_product/${productId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken
+                    },
+                    body: JSON.stringify({ stock: newStock })
+                })
+                .then(response => {
+                    console.log('DEBUG JS: Received response from server.', response);
+                    if (!response.ok) {
+                        return response.json().then(errorData => {
+                            throw new Error(errorData.error || 'Unknown error');
+                        }).catch(() => {
+                            throw new Error(response.statusText);
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('DEBUG JS: Server response data:', data);
+                    if (data.success) {
+                        alert('Product updated successfully!');
+                        const table = document.getElementById('products-table');
+                        let rowToUpdate = null;
+                        for (let i = 0; i < table.rows.length; i++) {
+                            if (table.rows[i].cells[0].textContent.trim() === productId.trim()) {
+                                rowToUpdate = table.rows[i];
+                                break;
+                            }
+                        }
+
+                        if (rowToUpdate) {
+                            rowToUpdate.children[4].textContent = newStock; // Update stock column
+                        }
+                        checkLowStock(); // Update notifications
+                        bootstrap.Modal.getInstance(document.getElementById('editProductModal')).hide();
+                    } else {
+                        alert('Error updating product: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('DEBUG JS: Fetch error:', error);
+                    alert('An error occurred while updating the product: ' + error.message);
+                });
+            });
+
+            // Product Delete functionality
+            document.addEventListener('click', function(event) {
+                if (event.target.classList.contains('btn-danger') && event.target.textContent.includes('Delete') && event.target.closest('#products-table')) {
+                    const row = event.target.closest('tr');
+                    const productId = row.children[0].textContent;
+                    const productName = row.children[1].textContent;
+
+                    if (confirm(`Are you sure you want to delete product "${productName}"?`)) {
+                        fetch(`/grocery/delete_product/${productId}/`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRFToken': csrftoken
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('Product deleted successfully!');
+                                const table = document.getElementById('products-table');
+                                let rowToRemove = null;
+                                for (let i = 0; i < table.rows.length; i++) {
+                                    if (table.rows[i].cells[0].textContent.trim() === productId.trim()) {
+                                        rowToRemove = table.rows[i];
+                                        break;
+                                    }
+                                }
+                                if (rowToRemove) {
+                                    rowToRemove.remove();
+                                }
+                                checkLowStock(); // Update notifications
+                            } else {
+                                alert('Error deleting product: ' + data.error);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred while deleting the product.');
+                        });
+                    }
+                }
+            });
+
+            // Salesperson Delete functionality
+            document.addEventListener('click', function(event) {
+                if (event.target.classList.contains('btn-danger') && event.target.textContent.includes('Delete') && event.target.closest('#salespersons-table')) {
+                    const row = event.target.closest('tr');
+                    const salespersonId = row.children[0].textContent;
+                    const salespersonName = row.children[1].textContent;
+
+                    if (confirm(`Are you sure you want to delete salesperson "${salespersonName}"?`)) {
+                        fetch(`/grocery/delete_salesperson/${salespersonId}/`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRFToken': csrftoken
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('Salesperson deleted successfully!');
+                                row.remove(); // Remove row from table
+                            } else {
+                                alert('Error deleting salesperson: ' + data.error);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred while deleting the salesperson.');
+                        });
+                    }
+                }
+            });
+        }); // Close DOMContentLoaded
+    </script>
+</body>
+</html>

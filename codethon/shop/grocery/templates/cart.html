@@ -1,0 +1,217 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link rel="icon" href="{% static 'assets/images/navbar2image.png' %}">
+    <!-- Add a larger favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/images/favicon-32x32.png' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"> <!-- Adjust if a different style is needed -->
+    <script src="https://kit.fontawesome.com/b421bddb66.js" crossorigin="anonymous"></script>
+    <style>
+        .navbar-nav li {
+            font-weight: bolder;
+            font-size: 1.1rem; /* Increased font size */
+        }
+
+        /* Adjust location text in navbar */
+        .navsection .d-flex.align-items-center > div:first-child {
+          margin-left: 30px;
+          text-align: center;
+        }
+/*        .cart-container {
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .cart-table img {
+            width: 100px; /* Increased image width */
+            height: 100px; /* Increased image height */
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .cart-summary {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .cart-summary h4 {
+            margin-bottom: 15px;
+        }
+        .cart-summary .list-group-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .empty-cart-message {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2rem;
+            color: #6c757d;
+        }*/
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navsection container-fluid m-0 row navbar-expand-lg bg-light navbar-light shadow-sm">
+            <div class="container-fluid">
+                <div class="col-lg-7 col-md-8 d-flex align-items-center">
+                    {% comment %} <div>
+                        <a href="https://www.google.com/maps/place/Softlogic/@13.0331168,80.1888352,15z/data=!4m15!1m8!3m7!1s0x3a525d71239ef587:0x75abe440202989b5!2sChennai,+Tamil+Nadu+600078!3b1!8m2!3d13.0410254!4d80.2000596!16s%2Fg%2F1hhhyzdmh!3m5!1s0x3a526752db8ffe35:0x7f6a2a2d0ebbdc94!8m2!3d13.037989!4d80.2044621!16s%2Fg%2F11b6hyvv_9?entry=ttu&g_ep=EgoyMDI1MTAwNy4wIKXMDSoASAFQAw%3D%3D"><span>Location</span></a><br>
+                    </div> {% endcomment %}
+                    <img src="{% static 'assets/images/navbar2image.png' %}" alt="navbarimage" width="100px">
+                    <span class="fs-3 fw-bold">Easy way to shop</span>
+                    <span class="fw-bold" id="alertmessage"></span>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarnav"
+                    aria-control="navbarnav" aria-expanded="false" aria-label="toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarnav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a href="{% url 'homepage' %}" class="nav-link px-3">Home</a>
+                        </li>
+                     <!--   <li class="nav-item">
+                            <a href="{% url 'about' %}" class="nav-link px-3">About us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#contactsection" class="nav-link px-3">Contact</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle px-3" href="#" id="categoriesDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Categories
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+                                <li><a class="dropdown-item" href="{% url 'products' %}">All Products</a></li>
+                               Categories will be dynamically added here if needed 
+                        </li>-->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle px-3" href="#" id="loginDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Login
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="loginDropdown">
+                                <li><a class="dropdown-item" href="{% url 'admin_login' %}">Admin</a></li>
+                                <li><a class="dropdown-item" href="{% url 'salesperson_login' %}">Sales
+                                        Person</a></li>
+                                <li><a class="dropdown-item" href="{% url 'login_view' %}">Customer</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item position-relative">
+                            <a href="{% url 'cart_view' %}" class="nav-link" id="cart">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                <span class="cart-badge badge bg-danger rounded-pill">{{ cart_items|length }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container cart-container">
+        <h2 class="mb-4">Your Shopping Cart</h2>
+
+        {% if cart_items %}
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Product</th>
+                        <th>PRODUCTNAME</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                    <tr>
+                        <td><img src="{{ item.image_url|default:'' }}" alt="{{ item.name }}" class="cart-item-image" width="30px" height="30px"></td>
+                        <td>{{ item.name }}</td>
+                        <td>Rs. {{ item.price|floatformat:2 }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>Rs. {{ item.total_price|floatformat:2 }}</td>
+                        <td>
+                            <form class="remove-from-cart-form" data-product-id="{{ item.id }}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row justify-content-end">
+            <div class="col-md-4">
+                <div class="cart-summary">
+                    <h4>Cart Summary</h4>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Subtotal: <span>Rs. {{ subtotal|floatformat:2 }}</span></li>
+                        <li class="list-group-item">Tax (10%): <span>Rs. {{ tax|floatformat:2 }}</span></li>
+                        <li class="list-group-item"><strong>Grand Total:</strong> <span><strong>Rs. {{ grand_total|floatformat:2 }}</strong></span></li>
+                    </ul>
+                    <div class="d-grid gap-2 mt-3">
+                        <a href="{% url 'user_details' %}" class="btn btn-success btn-lg">Proceed to Payment</a>
+                        <a href="{% url 'products' %}" class="btn btn-outline-primary btn-lg">Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+        <div class="empty-cart-message">
+            <p>Your cart is empty.</p>
+            <a href="{% url 'products' %}" class="btn btn-primary">Go to Products</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.remove-from-cart-form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const productId = this.getAttribute('data-product-id');
+                    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+                    fetch('{% url "remove_from_cart" %}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-CSRFToken': csrfToken
+                        },
+                        body: new URLSearchParams({
+                            'product_id': productId
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            alert('Failed to remove product from cart.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error removing from cart:', error);
+                        alert('An error occurred while removing from cart.');
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

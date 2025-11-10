@@ -1,0 +1,422 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Portal</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!--css link -->
+    <link rel="stylesheet" href="{% static 'assets/css/sales.css' %}">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <div class="d-flex align-items-center gap-3">
+                <div class="brand-icon">
+                    <img src="{% static 'assets/images/navbar2image.png' %}" alt="logo" width="100px" height="100px">
+                </div>
+                <div>
+                    <h5 class="mb-0 fw-bold">Delivery Portal</h5>
+                    <small class="text-muted">Salesperson</small>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <p class="text-muted large px-3 mb-2 fw-semibold">Navigation</p>
+            <a href="#dashboard-tab" class="nav-link-custom active" onclick="showTab('dashboard-tab')">
+                <i class="bi bi-house"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#deliveries-tab" class="nav-link-custom" onclick="showTab('deliveries-tab')">
+                <i class="bi bi-box-seam"></i>
+                <span>Deliveries</span>
+            </a>
+            <a href="#customers-tab" class="nav-link-custom" onclick="showTab('customers-tab')">
+                <i class="bi bi-people"></i>
+                <span>Customers</span>
+            </a>
+            <a href="#profile-tab" class="nav-link-custom" onclick="showTab('profile-tab')">
+                <i class="bi bi-person"></i>
+                <span>Profile</span>
+            </a>
+        </nav>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Header -->
+        <div class="top-header">
+            <button class="btn btn-light rounded-circle">
+                <i class="bi bi-moon"></i>
+            </button>
+        </div>
+        
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- Dashboard Tab -->
+            <div id="dashboard-tab" class="tab-content">
+                <h1 class="section-title">Dashboard</h1>
+                <p class="section-subtitle">Welcome back! Here's your delivery overview.</p>
+                
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted small mb-1">Total Deliveries</p>
+                                    <h2 class="mb-0 fw-bold">{{ total_deliveries }}</h2>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="bi bi-box-seam fs-4"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted small mb-1">In Transit</p>
+                                    <h2 class="mb-0 fw-bold">{{ pending_deliveries }}</h2>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="bi bi-truck fs-4"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted small mb-1">Completed Today</p>
+                                    <h2 class="mb-0 fw-bold">{{ completed_deliveries }}</h2>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="bi bi-check-circle fs-4"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="stat-card">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <p class="text-muted small mb-1">Pending</p>
+                                    <h2 class="mb-0 fw-bold">{{ pending_deliveries }}</h2>
+                                </div>
+                                <div class="stat-icon">
+                                    <i class="bi bi-clock fs-4"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!--section for action deliveries-->    
+                <h3 class="fw-bold mb-3">Active Deliveries</h3>
+                <div class="row g-4">
+                    {% for order in assigned_orders %}
+                    <div class="col-lg-6">
+                        <div class="delivery-card border-left-red">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="avatar">{{ order.customer_name|first }}</div>
+                                    <div>
+                                        <h6 class="mb-0 fw-semibold">{{ order.customer_name }}</h6>
+                                        <small class="text-muted">Order #{{ order.id }}</small>
+                                    </div>
+                                </div>
+                                <span class="status-badge status-assigned">
+                                    <i class="bi bi-box-seam"></i>
+                                    {{ order.status }}
+                                </span>
+                            </div>
+                            <div class="mb-3">
+                                <div class="d-flex align-items-center gap-2 text-muted small mb-2">
+                                    <i class="bi bi-geo-alt"></i>
+                                    <span>{{ order.address }}</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-2 text-muted small">
+                                    <i class="bi bi-clock"></i>
+                                    <span>{{ order.created_at|date:"H:i" }}</span>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2 flex-wrap">
+                                {% if order.status == 'Pending' %}
+                                <form action="{% url 'update_order_status' order.id 'In Transit' %}" method="post" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button class="btn btn-primary-custom">
+                                        <i class="bi bi-truck"></i> Start Delivery
+                                    </button>
+                                </form>
+                                {% elif order.status == 'In Transit' %}
+                                <form action="{% url 'update_order_status' order.id 'Completed' %}" method="post" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button class="btn btn-primary-custom">
+                                        <i class="bi bi-check-circle"></i> Mark as Delivered
+                                    </button>
+                                </form>
+                                {% endif %}
+                                <a href="tel:{{ order.phone }}" class="btn btn-secondary-custom">
+                                    <i class="bi bi-telephone"></i> Call
+                                </a>
+                                <button class="btn btn-secondary-custom">
+                                    <i class="bi bi-geo-alt"></i> Navigate
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12">
+                        <p class="text-center text-muted">No active deliveries.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- Deliveries Tab -->
+            <div id="deliveries-tab" class="tab-content " style="display: none;">
+                <h1 class="section-title">Deliveries</h1>
+                <p class="section-subtitle">Manage and track all your delivery assignments</p>
+                
+                <div class="mb-4">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="bi bi-search text-muted"></i>
+                        </span>
+                        <input type="text" class="form-control border-start-0" placeholder="Search by order ID or customer...">
+                    </div>
+                </div>
+                
+                <div class="d-flex gap-2 mb-4 overflow-auto pb-2">
+                    <button class="filter-btn active">All {{ total_deliveries }}</button>
+                    <button class="filter-btn">Assigned {{ pending_deliveries }}</button>
+                    <button class="filter-btn">In Transit {{ pending_deliveries }}</button>
+                    <button class="filter-btn">Delivered {{ completed_deliveries }}</button>
+                    <button class="filter-btn">Failed</button>
+                </div>
+                
+                <div class="row g-4">
+                    {% for order in assigned_orders %}
+                    <div class="col-lg-6">
+                        <div class="delivery-card border-left-red">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="avatar">{{ order.customer_name|first }}</div>
+                                    <div>
+                                        <h6 class="mb-0 fw-semibold">{{ order.customer_name }}</h6>
+                                        <small class="text-muted">Order #{{ order.id }}</small>
+                                    </div>
+                                </div>
+                                <span class="status-badge status-assigned">
+                                    <i class="bi bi-box-seam"></i>
+                                    {{ order.status }}
+                                </span>
+                            </div>
+                            <div class="mb-3">
+                                <div class="d-flex align-items-center gap-2 text-muted small mb-2">
+                                    <i class="bi bi-geo-alt"></i>
+                                    <span>{{ order.address }}</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-2 text-muted small">
+                                    <i class="bi bi-clock"></i>
+                                    <span>{{ order.created_at|date:"H:i" }}</span>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2 flex-wrap">
+                                {% if order.status == 'Pending' %}
+                                <form action="{% url 'update_order_status' order.id 'In Transit' %}" method="post" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button class="btn btn-primary-custom">
+                                        <i class="bi bi-truck"></i> Start Delivery
+                                    </button>
+                                </form>
+                                {% elif order.status == 'In Transit' %}
+                                <form action="{% url 'update_order_status' order.id 'Completed' %}" method="post" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button class="btn btn-primary-custom">
+                                        <i class="bi bi-check-circle"></i> Mark as Delivered
+                                    </button>
+                                </form>
+                                {% endif %}
+                                <a href="tel:{{ order.phone }}" class="btn btn-secondary-custom">
+                                    <i class="bi bi-telephone"></i> Call
+                                </a>
+                                <button class="btn btn-secondary-custom">
+                                    <i class="bi bi-geo-alt"></i> Navigate
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12">
+                        <p class="text-center text-muted">No deliveries found.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- Customers Tab -->
+            <div id="customers-tab" class="tab-content" style="display: none;">
+                <h1 class="section-title">Customers</h1>
+                <p class="section-subtitle">View and manage your customer information</p>
+                
+                <div class="mb-4">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="bi bi-search text-muted"></i>
+                        </span>
+                        <input type="text" class="form-control border-start-0" placeholder="Search customers...">
+                    </div>
+                </div>
+                
+                <div class="row g-4">
+                    {% for customer in unique_customers %}
+                    <div class="col-lg-4 col-md-6">
+                        <div class="customer-card">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="avatar">{{ customer.name|first }}</div>
+                                <h6 class="mb-0 fw-semibold">{{ customer.name }}</h6>
+                            </div>
+                            <div class="mb-3">
+                                <div class="d-flex align-items-center gap-2 text-muted small mb-2">
+                                    <i class="bi bi-envelope"></i>
+                                    <span>{{ customer.email|default:"N/A" }}</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-2 text-muted small mb-2">
+                                    <i class="bi bi-telephone"></i>
+                                    <span>{{ customer.phone }}</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-2 text-muted small">
+                                    <i class="bi bi-geo-alt"></i>
+                                    <span>{{ customer.address }}</span>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center py-3 border-top mb-3">
+                                <div class="d-flex align-items-center gap-2 text-muted small">
+                                    <i class="bi bi-box-seam"></i>
+                                    <span>Total Orders</span>
+                                </div>
+                                <span class="fw-semibold">{{ customer.total_orders }}</span>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <a href="tel:{{ customer.phone }}" class="btn btn-primary-custom flex-fill">
+                                    <i class="bi bi-telephone"></i> Call
+                                </a>
+                                <button class="btn btn-secondary-custom">
+                                    <i class="bi bi-envelope"></i>
+                                </button>
+                                <button class="btn btn-secondary-custom">
+                                    <i class="bi bi-geo-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12">
+                        <p class="text-center text-muted">No customers found.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- Profile Tab -->
+            <div id="profile-tab" class="tab-content" style="display: none;">
+                <h1 class="section-title">Profile</h1>
+                <p class="section-subtitle">Your account information and performance stats</p>
+                
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div class="profile-card">
+                            <h4 class="fw-bold mb-4">Personal Information</h4>
+                            <div class="text-center mb-4">
+                                <div class="avatar avatar-lg mx-auto mb-3">
+                                    {{ salesperson.name|first }}
+                                </div>
+                                <h5 class="fw-semibold mb-2">{{ salesperson.name }}</h5>
+                                <span class="badge bg-primary mb-2">{{ salesperson.status }}</span>
+                                <p class="text-muted small">{{ salesperson.email }}</p>
+                            </div>
+                            <div class="mb-4">
+                                <div class="d-flex align-items-center gap-3 text-muted mb-3">
+                                    <i class="bi bi-envelope fs-5"></i>
+                                    <span>{{ salesperson.email }}</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-3 text-muted">
+                                    <i class="bi bi-telephone fs-5"></i>
+                                    <span>{{ salesperson.phone }}</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline-secondary w-100">
+                                <i class="bi bi-box-arrow-right"></i><a href="{% url 'salesperson_logout' %}"> Logout</a>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="profile-card">
+                            <h4 class="fw-bold mb-4">Performance Overview</h4>
+                            <div class="row text-center mb-4">
+                                <div class="col-4">
+                                    <i class="bi bi-box-seam text-primary fs-2 mb-2"></i>
+                                    <h3 class="fw-bold mb-1">{{ total_deliveries }}</h3>
+                                    <p class="small text-muted mb-1">Total Deliveries</p>
+                                    <small class="text-primary">All time</small>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-success fs-2 mb-2">*</div>
+                                    <h3 class="fw-bold mb-1">{{ completed_deliveries }}</h3>
+                                    <p class="small text-muted mb-1">Success Rate</p>
+                                    <small class="text-success">{{ completed_deliveries }} completed</small>
+                                </div>
+                                <div class="col-4">
+                                    <div class="fs-2 mb-2">⭐</div>
+                                    <h3 class="fw-bold mb-1">5</h3>
+                                    <p class="small text-muted mb-1">Avg. Rating</p>
+                                    <small class="text-primary">From customers</small>
+                                </div>
+                            </div>
+                            <div class="border-top pt-4">
+                                <h5 class="fw-semibold mb-3">Current Status</h5>
+                                <div class="d-flex justify-content-between mb-3">
+                                    <span class="text-muted">Completed</span>
+                                    <span class="fw-semibold">{{ completed_deliveries }} deliveries</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-3">
+                                    <span class="text-muted">In Progress</span>
+                                    <span class="fw-semibold">{{ pending_deliveries }} deliveries</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-muted">Average per day</span>
+                                    <span class="fw-semibold">how many deliveries per day</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+         function showTab(sectionClass) {
+  // Hide all sections first
+  document.querySelectorAll('.tab-content')
+    .forEach(sec => sec.style.display = 'none');
+
+  // Show only the selected section
+  document.getElementById(sectionClass).style.display = 'block';
+}
+
+  
+    </script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>   
+   

@@ -1,0 +1,53 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.navbar .nav-link {
+  font-size: 20px;
+  font-weight: 500;
+  color: #333 !important;
+  transition: 0.3s;
+  padding: 10px;
+}
+
+.navbar .nav-link:hover {
+  color: #0d6efd !important;
+}
+
+
+.dropdown-menu {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+  color: #0d6efd;
+}
+.dashboard-card {
+  border-radius: 12px;
+  transition: transform 0.2s ease-in-out;
+  text-align: center;
+  height: 120px;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+}
+
+.dashboard-value {
+  font-size: 2rem;
+  font-weight: bold;
+}
+.table{
+    transition: ease-in 0.2s all;
+    text-align: center;
+}
+.table:hover{
+    transform: scale(1.01);
+} 
+.tablehead{
+    padding: 15px;
+}

@@ -1,0 +1,788 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products</title>
+  <link rel="icon" href="{% static 'assets/images/navbar2image.png' %}">
+  <!-- Add a larger favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/images/favicon-32x32.png' %}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://kit.fontawesome.com/b421bddb66.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="{% static 'assets/css/style2.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    /* Product Stock Info Styles */
+    .product-card {
+      position: relative;
+    }
+
+    .product-stock-info {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-size: 0.85em;
+      z-index: 10;
+    }
+    /* Adjust location text in navbar */
+    .navsection .d-flex.align-items-center > div:first-child {
+      margin-left: 30px;
+      text-align: center;
+    }
+    /* Make product cards have a black border */
+    .product-grid-sections .card {
+      border: 1px solid #000 !important;
+      width: 300px;
+      height: 300px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      margin: 0 auto 30px auto; /* center inside column with 30px bottom margin */
+      overflow: hidden;
+    }
+
+    /* Center card inside bootstrap column so fixed-width cards align nicely */
+    .product-grid-sections .col-md-3,
+    .product-grid-sections .col-sm-6 {
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Make product image occupy the top portion and keep cover behavior */
+    .product-grid-sections .card img {
+      width: 100%;
+      height: 160px; /* leaves ~140px for card-body */
+      object-fit: cover;
+      flex: 0 0 160px;
+    }
+
+    /* Let card body take remaining space and allow content to wrap/scroll if needed */
+    .product-grid-sections .card .card-body {
+      flex: 1 1 auto;
+      padding: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    /* Keep title and price readable and avoid overflow */
+    .product-grid-sections .card .card-title,
+    .product-grid-sections .card .card-text {
+      margin: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Remove gap between navbar and sidebar */
+    .sidenav {
+      margin-top: 0;
+      padding-top: 0;
+      height: calc(100vh - 100px) !important;
+      position: sticky;
+      top: 100px;
+      overflow-y: visible;
+      overflow-x: visible;
+      border-right: 2px solid #000;
+      width: 250px !important;
+    }
+
+    /* Make sidebar content not scrollable */
+    .side-nav {
+      height: 100%;
+      overflow: visible;
+    }
+
+    /* Make product grid sections scrollable */
+    .product-grid-sections {
+      height: calc(100vh - 100px);
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-right: 10px;
+      padding-left: 15px;
+    }
+
+    /* Move cardsection to the left */
+    .col-md-9 {
+      padding-left: 10px;
+    }
+
+    /* Ensure cardsection scrolling works properly - override style2.css */
+    .cardsection,
+    .cardsection2,
+    .cardsection3,
+    .cardsection4,
+    .cardsection5,
+    .cardsection6 {
+      overflow: visible !important;
+    }
+
+    /* Add black border to category headings in products page */
+    .cardsection h1.text-center,
+    .cardsection2 h1.text-center,
+    .cardsection3 h1.text-center,
+    .cardsection4 h1.text-center,
+    .cardsection5 h1.text-center,
+    .cardsection6 h1.text-center {
+      border: 2px solid #000;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body>
+ 
+  <!-- ✅ Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light shadow-sm fixed-top">
+    <div class="container-fluid navbar-brand-custom">
+
+      <!-- Left Section -->
+      <div class="d-flex align-items-center">
+        {% comment %} <div class="me-3">
+          <a href="https://www.google.com/maps/place/Softlogic/@13.0331168,80.1888352,15z/data=!4m15!1m8!3m7!1s0x3a525d71239ef587:0x75abe440202989b5!2sChennai,+Tamil+Nadu+600078!3b1!8m2!3d13.0410254!4d80.2000596!16s%2Fg%2F1hhhyzdmh!3m5!1s0x3a526752db8ffe35:0x7f6a2a2d0ebbdc94!8m2!3d13.037989!4d80.2044621!16s%2Fg%2F11b6hyvv_9?entry=ttu&g_ep=EgoyMDI1MTAwNy4wIKXMDSoASAFQAw%3D%3D"><span>Location</span></a><br>
+        </div> {% endcomment %}
+        <img src="{% static 'assets/images/navbar2image.png' %}" alt="navbarimage" class="navbar-logo">
+        <span class="fs-4 fw-bold ms-2">Easy way to shop</span>
+      </div>
+
+      <!-- Toggler -->
+      <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarnav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Menu -->
+      <div class="collapse navbar-collapse" id="navbarnav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a href="{% url 'homepage' %}" class="nav-link">Home</a>
+          </li>
+          
+          <li class="nav-item">
+            <a href="{% url 'my_orders' %}" class="nav-link"><i class="bi bi-receipt"></i> My Orders</a>
+          </li>
+          <li class="nav-item position-relative">
+            <a href="{% url 'cart_view' %}" class="nav-link" id="cart">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-badge badge bg-danger rounded-pill">{{ cart_items|length }}</span>
+            </a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {% if is_customer_logged_in %}Logout{% else %}Login{% endif %}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="loginDropdown">
+                {% if is_customer_logged_in %}
+                    <li><a class="dropdown-item" href="{% url 'customer_logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a class="dropdown-item" href="{% url 'admin_login' %}">Admin</a></li>
+                    <li><a class="dropdown-item" href="{% url 'salesperson_login' %}">Sales Person</a></li>
+                    <li><a class="dropdown-item" href="{% url 'login_view'%}">Customer</a></li>
+                {% endif %}
+            </ul>
+        </li>
+        </ul>
+      </div> 
+    </div>
+  </nav>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3">
+  <!-- ✅ Sidebar -->
+  <aside class="sidenav">
+    <div class="side-nav">
+      <h1>Product Categories</h1>
+      <ul class="list-unstyled">
+        <!-- Dairy -->
+        <li class="dropdown">
+                <a class="dropdown-toggle" href="#dairy-eggs" id="dairy" data-bs-toggle="dropdown" aria-expanded="false">
+            Dairy Products
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="dairy">
+                  <li><a class="dropdown-item" href="#dairy-eggs">Dairy & Eggs</a></li>
+          </ul>
+        </li>
+        <!-- Rice -->
+        <li class="dropdown mt-2">
+                <a class="dropdown-toggle" href="#rice-products" id="rice" data-bs-toggle="dropdown" aria-expanded="false">
+            Rice Products
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="rice">
+                  <li><a class="dropdown-item" href="#rice-products">Rice Products</a></li>
+          </ul>
+        </li>
+        <!-- Masala -->
+        <li class="dropdown mt-2">
+                <a class="dropdown-toggle" href="#masala-spices" id="masala" data-bs-toggle="dropdown" aria-expanded="false">
+            Masala & Spices
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="masala">
+                  <li><a class="dropdown-item" href="#masala-spices">Masala & Spices</a></li>
+          </ul>
+        </li>
+        <!-- Cleaning -->
+        <li class="dropdown mt-2">
+                <a class="dropdown-toggle" href="#cleaning-products" id="cleaning" data-bs-toggle="dropdown" aria-expanded="false">
+            Cleaning Products
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="cleaning">
+                  <li><a class="dropdown-item" href="#cleaning-products">Cleaning Products</a></li>
+          </ul>
+        </li>
+        <!-- Healthcare -->
+        <li class="dropdown mt-2">
+                <a class="dropdown-toggle" href="#healthcare-products" id="healthcare" data-bs-toggle="dropdown" aria-expanded="false">
+            Healthcare
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="healthcare">
+                  <li><a class="dropdown-item" href="#healthcare-products">Healthcare</a></li>
+          </ul>
+        </li>
+        <!-- Instant -->
+        <li class="dropdown mt-2">
+                <a href="#instant-products" class="dropdown-toggle" data-bs-toggle="dropdown" id="instant" aria-expanded="false">
+            Instant products
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="instant">
+                  <li><a href="#instant-products" class="dropdown-item">Instant Products</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </aside>
+      </div>
+      <div class="col-md-9">
+        <section class="product-grid-sections">
+          {% for category_name, products_list in products_by_category.items %}
+            {% if category_name == "Rice Products" %}
+              <div class="cardsection" id="rice-products">
+                <h1 class="text-center" style="border:none;">{{ category_name }}</h1> 
+      <div class="row g-3">
+                  {% for product in products_list %}
+        <div class="col-md-3 col-sm-6">
+          <div class="card product-card" data-product-id="{{ product.id }}">
+            <div class="product-stock-info">
+              {% if product.stock > 0 and product.stock <= 5 %}
+                <span class="text-warning fw-bold">Only {{ product.stock }} left!</span>
+              {% elif product.stock == 0 %}
+                <span class="text-danger fw-bold">Out of Stock</span>
+              {% endif %}
+            </div>
+                        <img src="{% if product.product_image %}{{ product.product_image.url }}{% else %}{% static 'assets/images/default_product.png' %}{% endif %}" alt="{{ product.product_name }}">
+            <div class="card-body">
+                          <h5 class="card-title">{{ product.product_name }}</h5>
+                          <p class="card-text">Price: Rs.{{ product.price }}</p>
+              <button class="btn btn-primary add-to-cart-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#cartModal"
+                                    data-product-id="{{ product.id }}"
+                                    data-product-name="{{ product.product_name }}"
+                                    data-product-price="{{ product.price }}"
+                                    data-product-image="{% if product.product_image %}{{ product.product_image.url }}{% else %}{% static 'assets/images/default_product.png' %}{% endif %}"
+                                    data-product-stock="{{ product.stock }}"
+                                    {% if product.stock == 0 %}disabled{% endif %}>
+                              Add to Cart
+                            </button>
+              <p class="text-danger mt-2 stock-error-message" style="display: none;"></p>
+            </div>
+          </div>
+        </div>
+                  {% endfor %}
+            </div>
+          </div>
+            {% elif category_name == "Dairy & Eggs" %}
+              <div class="cardsection2" id="dairy-eggs">
+                 <h1 class="text-center" style="border:none;">{{ category_name }}</h1> 
+      <div class="row g-3">
+                  {% for product in products_list %}
+        <div class="col-md-3 col-sm-6">
+          <div class="card product-card" data-product-id="{{ product.id }}">
+            <div class="product-stock-info">
+              {% if product.stock > 0 and product.stock <= 5 %}
+                <span class="text-warning fw-bold">Only {{ product.stock }} left!</span>
+              {% elif product.stock == 0 %}
+                <span class="text-danger fw-bold">Out of Stock</span>
+              {% endif %}
+            </div>
+                        <img src="{% if product.product_image %}{{ product.product_image.url }}{% else %}{% static 'assets/images/default_product.png' %}{% endif %}" alt="{{ product.product_name }}">
+            <div class="card-body">
+                          <h5 class="card-title">{{ product.product_name }}</h5>
+                          <p class="card-text">Price: Rs.{{ product.price }}</p>
+              <button class="btn btn-primary add-to-cart-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#cartModal"
+                                    data-product-id="{{ product.id }}"
+                                    data-product-name="{{ product.product_name }}"
+                                    data-product-price="{{ product.price }}"
+                                    data-product-image="{% if product.product_image %}{{ product.product_image.url }}{% else %}{% static 'assets/images/default_product.png' %}{% endif %}"
+                                    data-product-stock="{{ product.stock }}"
+                                    {% if product.stock == 0 %}disabled{% endif %}>
+                              Add to Cart
+                            </button>
+              <p class="text-danger mt-2 stock-error-message" style="display: none;"></p>
+            </div>
+          </div>
+        </div>
+                  {% endfor %}
+            </div>
+          </div>
+            {% elif category_name == "Masala & Spices" %}
+              <div class="cardsection3" id="masala-spices">
+                <h1 class="text-center" style="border:none;">{{ category_name }}</h1>
+      <div class="row g-3">
+                  {% for product in products_list %}
+        <div class="col-md-3 col-sm-6">
+          <div class="card product-card" data-product-id="{{ product.id }}">
+            <div class="product-stock-info">
+              {% if product.stock > 0 and product.stock <= 5 %}
+                <span class="text-warning fw-bold">Only {{ product.stock }} left!</span>
+              {% elif product.stock == 0 %}
+                <span class="text-danger fw-bold">Out of Stock</span>
+              {% endif %}
+            </div>
+                        <img src="{% if product.product_image %}{{ product.product_image.url }}{% else %}{% static 'assets/images/default_product.png' %}{% endif %}" alt="{{ product.product_name }}">
+            <div class="card-body">
+                          <h5 class="card-title">{{ product.product_name }}</h5>
+                          <p class="card-text">Price: Rs.{{ product.price }}</p>
+              <button class="btn btn-primary add-to-cart-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#cartModal"
+                                    data-product-id="{{ product.id }}"
+                                    data-product-name="{{ product.product_name }}"
+                                    data-product-price="{{ product.price }}"
+                                    data-product-image="{% if product.product_image %}{{ product.product_image.url }}{% else %}{% static 'assets/images/default_product.png' %}{% endif %}"
+                                    data-product-stock="{{ product.stock }}"
+                                    {% if product.stock == 0 %}disabled{% endif %}>
+                              Add to Cart
+                            </button>
+              <p class="text-danger mt-2 stock-error-message" style="display: none;"></p>
+            </div>
+          </div>
+        </div>
+                  {% endfor %}
+            </div>
+          </div>
+            {% elif category_name == "Cleaning Products" %}
+              <div class="cardsection4" id="cleaning-products">
+                <h1 class="text-center" style="border:none;">{{ category_name }}</h1> 
+      <div class="row g-3">
+                  {% for product in products_list %}
+        <div class="col-md-3 col-sm-6">
+          <div class="card product-card" data-product-id="{{ product.id }}">
+            <div class="product-stock-info">
+              {% if product.stock > 0 and product.stock <= 5 %}
+                <span class="text-warning fw-bold">Only {{ product.stock }} left!</span>
+              {% elif product.stock == 0 %}
+                <span class="text-danger fw-bold">Out of Stock</span>
+              {% endif %}
+            </div>
+                        <img src="{% if product.product_image %}{{ product.product_image.url }}{% else %}{% static 'assets/images/default_product.png' %}{% endif %}" alt="{{ product.product_name }}">
+            <div class="card-body">
+                          <h5 class="card-title">{{ product.product_name }}</h5>
+                          <p class="card-text">Price: Rs.{{ product.price }}</p>
+              <button class="btn btn-primary add-to-cart-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#cartModal"
+                                    data-product-id="{{ product.id }}"
+                                    data-product-name="{{ product.product_name }}"
+                                    data-product-price="{{ product.price }}"
+                                    data-product-image="{% if product.product_image %}{{ product.product_image.url }}{% else %}{% static 'assets/images/default_product.png' %}{% endif %}"
+                                    data-product-stock="{{ product.stock }}"
+                                    {% if product.stock == 0 %}disabled{% endif %}>
+                              Add to Cart
+                            </button>
+              <p class="text-danger mt-2 stock-error-message" style="display: none;"></p>
+            </div>
+          </div>
+        </div>
+                  {% endfor %}
+            </div>
+          </div>
+            {% elif category_name == "Healthcare" %}
+              <div class="cardsection5" id="healthcare-products">
+                <h1 class="text-center" style="border:none;">{{ category_name }}</h1> 
+      <div class="row g-3">
+                  {% for product in products_list %}
+        <div class="col-md-3 col-sm-6">
+          <div class="card product-card" data-product-id="{{ product.id }}">
+            <div class="product-stock-info">
+              {% if product.stock > 0 and product.stock <= 5 %}
+                <span class="text-warning fw-bold">Only {{ product.stock }} left!</span>
+              {% elif product.stock == 0 %}
+                <span class="text-danger fw-bold">Out of Stock</span>
+              {% endif %}
+            </div>
+                        <img src="{% if product.product_image %}{{ product.product_image.url }}{% else %}{% static 'assets/images/default_product.png' %}{% endif %}" alt="{{ product.product_name }}">
+            <div class="card-body">
+                          <h5 class="card-title">{{ product.product_name }}</h5>
+                          <p class="card-text">Price: Rs.{{ product.price }}</p>
+              <button class="btn btn-primary add-to-cart-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#cartModal"
+                                    data-product-id="{{ product.id }}"
+                                    data-product-name="{{ product.product_name }}"
+                                    data-product-price="{{ product.price }}"
+                                    data-product-image="{% if product.product_image %}{{ product.product_image.url }}{% else %}{% static 'assets/images/default_product.png' %}{% endif %}"
+                                    data-product-stock="{{ product.stock }}"
+                                    {% if product.stock == 0 %}disabled{% endif %}>
+                              Add to Cart
+                            </button>
+              <p class="text-danger mt-2 stock-error-message" style="display: none;"></p>
+            </div>
+          </div>
+        </div>
+                  {% endfor %}
+            </div>
+          </div>
+            {% elif category_name == "Instant Products" %}
+              <div class="cardsection6" id="instant-products">
+                <h1 class="text-center" style="border:none;">{{ category_name }}</h1> 
+      <div class="row g-3">
+                  {% for product in products_list %}
+        <div class="col-md-3 col-sm-6">
+          <div class="card product-card" data-product-id="{{ product.id }}">
+            <div class="product-stock-info">
+              {% if product.stock > 0 and product.stock <= 5 %}
+                <span class="text-warning fw-bold">Only {{ product.stock }} left!</span>
+              {% elif product.stock == 0 %}
+                <span class="text-danger fw-bold">Out of Stock</span>
+              {% endif %}
+            </div>
+                        <img src="{% if product.product_image %}{{ product.product_image.url }}{% else %}{% static 'assets/images/default_product.png' %}{% endif %}" alt="{{ product.product_name }}">
+            <div class="card-body">
+                          <h5 class="card-title">{{ product.product_name }}</h5>
+                          <p class="card-text">Price: Rs.{{ product.price }}</p>
+              <button class="btn btn-primary add-to-cart-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#cartModal"
+                                    data-product-id="{{ product.id }}"
+                                    data-product-name="{{ product.product_name }}"
+                                    data-product-price="{{ product.price }}"
+                                    data-product-image="{% if product.product_image %}{{ product.product_image.url }}{% else %}{% static 'assets/images/default_product.png' %}{% endif %}"
+                                    data-product-stock="{{ product.stock }}"
+                                    {% if product.stock == 0 %}disabled{% endif %}>
+                              Add to Cart
+                            </button>
+              <p class="text-danger mt-2 stock-error-message" style="display: none;"></p>
+            </div>
+          </div>
+        </div>
+                  {% endfor %}
+            </div>
+          </div>
+            {% endif %}
+          {% endfor %}
+        </section>
+            </div>
+          </div>
+        </div>
+
+  <!--modal section for the add to cart-->
+  <section>
+    <!--section for cart modal opening of products-->
+
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="cartModalLabel">Product Added to Cart</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body d-flex align-items-center">
+            <img id="modalImage" src="" alt="Product Image"
+              style="width:100px; height:100px; object-fit:cover; margin-right:15px;">
+            <div>
+              <h5 id="modalProductName"></h5>
+              <p id="modalPrice"></p>
+              <div class="d-flex align-items-center mb-2">
+                    <label for="modalQuantity" class="form-label mb-0 me-2">Quantity:</label>
+                    <div class="input-group" style="width: 120px;">
+                        <button class="btn btn-outline-secondary" type="button" id="decreaseQuantity">-</button>
+                        <input type="number" id="modalQuantity" class="form-control text-center" value="1" min="1">
+                        <button class="btn btn-outline-secondary" type="button" id="increaseQuantity">+</button>
+                    </div>
+                    <button class="btn btn-success ms-2" type="button" id="addToCartAndStay"><i class="fa-solid fa-cart-plus"></i></button>
+                </div>
+              <p id="modalStockMessage" class="text-danger" style="display: none;"></p>
+            </div>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue Shopping</button>
+            <button type="button" class="btn btn-primary" id="movetocart">move to cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!--cart page-->
+
+  <section>
+       <div class="containercart">
+        <div class="d-flex justify-content-between">
+        <h1>🛒 Shopping Cart</h1>
+        <button type="button" class="btn btn-lg btn-danger h-75" onclick="closecart()">close</button>
+        </div>
+        <div class="cart-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>productname</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th style="color:yellow; text-align:left;">Remove</th>
+                    </tr>
+                </thead>
+                <tbody id="cartBody">
+                        <tr class="emptycart">
+                           <td colspan="12" class="text-center">
+                                Your cart is empty 
+                           </td>
+                        </tr>
+                  </tbody>
+            </table>
+        </div>
+
+        <div class="cart-summary">
+            <div class="summary-content">
+                <div class="summary-row">
+                    <span>Subtotal: </span>
+                    <span id="subtotal"></span>
+                </div>
+                <div class="summary-row">
+                    <span>Tax:</span>
+                    <span id="tax"></span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>Total: </span>
+                    <span id="grandTotal"></span>
+                </div>
+            </div>
+            <div class="mt-3">
+            <span class="fw-bold fs-4 paymentlink">Go To Payment</span>
+            </div>
+            </div>
+       
+       </div>
+  </section>
+
+  <!--Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    document.querySelectorAll('.dropdown-item').forEach(link => {
+      link.addEventListener('click', (event) => {
+        const targetId = event.target.getAttribute('href').split('#')[1];
+        if (targetId) {
+          event.preventDefault();
+          document.querySelectorAll('.product-grid-sections > div')
+            .forEach(sec => sec.style.display = 'none');
+          document.getElementById(targetId).style.display = 'block';
+        }
+      });
+    });
+
+    // Initial display: show the first category section if available
+    document.addEventListener('DOMContentLoaded', () => {
+      const firstCategorySection = document.querySelector('.product-grid-sections > div');
+      if (firstCategorySection) {
+        firstCategorySection.style.display = 'block';
+      }
+    });
+
+    document.getElementById('cartModal').addEventListener('show.bs.modal', function (event) {
+      const button = event.relatedTarget; // Button that triggered the modal
+      const productId = button.getAttribute('data-product-id');
+      const productName = button.getAttribute('data-product-name');
+      const productPrice = button.getAttribute('data-product-price');
+      const productImage = button.getAttribute('data-product-image');
+      const productStock = parseInt(button.getAttribute('data-product-stock'));
+
+      const modalImage = document.getElementById('modalImage');
+      const modalProductName = document.getElementById('modalProductName');
+      const modalPrice = document.getElementById('modalPrice');
+      const modalQuantityInput = document.getElementById('modalQuantity');
+      const modalStockMessage = document.getElementById('modalStockMessage');
+      const movetocartButton = document.getElementById('movetocart');
+
+      modalImage.src = productImage;
+      modalProductName.textContent = productName;
+      modalPrice.textContent = 'Rs.' + productPrice;
+      modalQuantityInput.value = 1; // Reset quantity to 1
+      modalQuantityInput.setAttribute('max', productStock); // Set max based on stock
+      modalQuantityInput.disabled = productStock === 0;
+      movetocartButton.disabled = productStock === 0;
+
+      if (productStock === 0) {
+        modalStockMessage.textContent = 'Out of Stock';
+        modalStockMessage.style.display = 'block';
+      } else if (productStock <= 5) {
+        modalStockMessage.textContent = `Only ${productStock} items left in stock!`;
+        modalStockMessage.style.display = 'block';
+      } else {
+        modalStockMessage.style.display = 'none';
+      }
+
+      // Store product details in data attributes for the 'move to cart' button
+      movetocartButton.setAttribute('data-product-id', productId);
+      movetocartButton.setAttribute('data-product-name', productName);
+      movetocartButton.setAttribute('data-product-price', productPrice);
+      movetocartButton.setAttribute('data-product-image', productImage);
+      movetocartButton.setAttribute('data-product-stock', productStock);
+    });
+
+    let modalQuantityInput = document.getElementById('modalQuantity');
+    let increaseQuantityButton = document.getElementById('increaseQuantity');
+    let decreaseQuantityButton = document.getElementById('decreaseQuantity');
+
+    if (increaseQuantityButton) {
+        increaseQuantityButton.addEventListener('click', () => {
+            let currentValue = parseInt(modalQuantityInput.value);
+            let max = parseInt(modalQuantityInput.getAttribute('max'));
+            if (currentValue < max) {
+                modalQuantityInput.value = currentValue + 1;
+            }
+        });
+    }
+
+    if (decreaseQuantityButton) {
+        decreaseQuantityButton.addEventListener('click', () => {
+            let currentValue = parseInt(modalQuantityInput.value);
+            if (currentValue > 1) {
+                modalQuantityInput.value = currentValue - 1;
+            }
+        });
+    }
+
+    document.getElementById('cartModal').addEventListener('hidden.bs.modal', function () {
+      document.getElementById('modalQuantity').value = 1;
+      document.getElementById('modalStockMessage').style.display = 'none';
+    });
+
+    function showcart(cartpage) {
+      document.querySelectorAll('.sidenav, .product-grid-sections')
+        .forEach(sec => sec.style.display = 'none');
+      document.querySelector(cartpage).style.display = 'block';
+    }
+
+    document.getElementById('cart').addEventListener('click', (event) => {
+        event.preventDefault();
+        window.location.href = '{% url "cart_view" %}';
+    });
+
+    let containercart = document.querySelector('.containercart');
+    function closecart() {
+      containercart.style.display = 'none';
+      document.querySelector('.sidenav').style.display = 'block';
+      document.querySelector('.product-grid-sections').style.display = 'block';
+    }
+
+    document.getElementById('movetocart').addEventListener('click', () => {
+      handleAddToCart(true); // true to move to cart
+    });
+
+    document.getElementById('addToCartAndStay').addEventListener('click', () => {
+      handleAddToCart(false); // false to stay in modal
+    });
+
+    function handleAddToCart(moveToCart) {
+      const productId = document.getElementById('movetocart').getAttribute('data-product-id');
+      const requestedQuantity = parseInt(document.getElementById('modalQuantity').value);
+      const availableStock = parseInt(document.getElementById('movetocart').getAttribute('data-product-stock'));
+      const modalStockMessage = document.getElementById('modalStockMessage');
+
+      if (requestedQuantity > availableStock) {
+        modalStockMessage.textContent = `Only ${availableStock} items are in stock.`;
+        modalStockMessage.style.display = 'block';
+        return; // Prevent adding to cart if quantity exceeds stock
+      } else {
+        modalStockMessage.style.display = 'none';
+      }
+      
+      fetch('{% url "add_to_cart" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: new URLSearchParams({
+          'product_id': productId,
+          'quantity': requestedQuantity
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          document.querySelector('.cart-badge').textContent = data.cart_count;
+
+          // Update stock display on the product card
+          const productCard = document.querySelector(`.product-card[data-product-id="${productId}"]`);
+          if (productCard) {
+            const stockInfo = productCard.querySelector('.product-stock-info');
+            const addToCartBtn = productCard.querySelector('.add-to-cart-btn');
+            
+            let updatedStock = availableStock - requestedQuantity;
+            addToCartBtn.setAttribute('data-product-stock', updatedStock); // Update stock in button dataset
+
+            if (stockInfo) {
+              if (updatedStock > 0 && updatedStock <= 5) {
+                stockInfo.innerHTML = `<span class="text-warning fw-bold">Only ${updatedStock} left!</span>`;
+              } else if (updatedStock === 0) {
+                stockInfo.innerHTML = `<span class="text-danger fw-bold">Out of Stock</span>`;
+                addToCartBtn.disabled = true; // Disable add to cart button
+              } else {
+                stockInfo.innerHTML = ''; // Clear message if stock is above 5
+              }
+            }
+          }
+          
+          if (moveToCart) {
+            bootstrap.Modal.getInstance(document.getElementById('cartModal')).hide();
+            window.location.href = '{% url "cart_view" %}';
+          } else {
+            // Reset quantity to 1 after adding to cart if staying in modal
+            modalQuantityInput.value = 1;
+            // Optionally, show a temporary success message
+            // alert('Product added to cart!');
+          }
+
+        } else {
+          alert(data.message || 'Failed to add product to cart.');
+        }
+      })
+      .catch(error => {
+        console.error('Error adding to cart:', error);
+        alert('An error occurred while adding to cart.');
+      });
+    }
+
+  function granttotal() {
+  let allTotals = document.querySelectorAll('.total-price');
+  let subtotalValue = 0;
+
+  allTotals.forEach(item => {
+    subtotalValue += Number(item.textContent);
+  });
+
+  let taxValue = subtotalValue * 0.10; // 10% tax
+  let grandTotal = subtotalValue + taxValue;
+
+      document.getElementById('subtotal').textContent = 'Rs: ' + subtotalValue.toFixed(2);
+      document.getElementById('tax').textContent = 'Rs: ' + taxValue.toFixed(2);
+      document.getElementById('grandTotal').textContent = 'Rs: ' + grandTotal.toFixed(2);
+    }
+  </script>
+</body>
+
+</html>

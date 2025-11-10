@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders</title>
+    <link rel="icon" href="{% static 'assets/images/navbar2image.png' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/b421bddb66.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'assets/css/style2.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            padding-top: 70px; /* Adjust based on navbar height */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar (copy from products1.html or use an include if available) -->
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm fixed-top">
+        <div class="container-fluid navbar-brand-custom">
+            <div class="d-flex align-items-center">
+                {% comment %} <div class="me-3">
+                    <span>Location <i class="fa-solid fa-location-dot"></i></span><br>
+                    <span><a href="https://www.google.com/maps/place/Softlogic/@13.0331168,80.1888352,15z/data=!4m15!1m8!3m7!1s0x3a525d71239ef587:0x75abe440202989b5!2sChennai,+Tamil+Nadu+600078!3b1!8m2!3d13.0410254!4d80.2000596!16s%2Fg%2F1hhhyzdmh!3m5!1s0x3a526752db8ffe35:0x7f6a2a2d0ebbdc94!8m2!3d13.037989!4d80.2044621!16s%2Fg%2F11b6hyvv_9?entry=ttu&g_ep=EgoyMDI1MTAwNy4wIKXMDSoASAFQAw%3D%3D">600078</a></span>
+                </div> {% endcomment %}
+                <img src="{% static 'assets/images/navbar2image.png' %}" alt="navbarimage" class="navbar-logo">
+                <span class="fs-4 fw-bold ms-2">Easy way to shop</span>
+            </div>
+
+            <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarnav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarnav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a href="{% url 'homepage' %}" class="nav-link">Home</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="{% url 'my_orders' %}" class="nav-link active"><i class="bi bi-receipt"></i> My Orders</a>
+                    </li>
+                    <li class="nav-item position-relative">
+                        <a href="{% url 'cart_view' %}" class="nav-link" id="cart">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <span class="cart-badge badge bg-danger rounded-pill">{{ cart_items|length }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div> 
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h2 class="mb-4">My Orders</h2>
+        
+        {% if orders_with_items %}
+            {% for order_data in orders_with_items %}
+            <div class="card mb-3 shadow-sm">
+                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>Order ID: #{{ order_data.order.id }}</strong><br>
+                        <small>Order Date: {{ order_data.order.created_at|date:"Y-m-d H:i" }}</small>
+                    </div>
+                    <div>
+                        <strong>Total: Rs. {{ order_data.total_order_price|floatformat:2 }}</strong><br>
+                        <span class="badge {% if order_data.order.status == 'Pending' %}bg-warning
+                            {% elif order_data.order.status == 'Processing' %}bg-info
+                            {% elif order_data.order.status == 'In Transit' or order_data.order.status == 'Out for Delivery' %}bg-primary
+                            {% elif order_data.order.status == 'Delivered' or order_data.order.status == 'Completed' %}bg-dark
+                            {% endif %}">
+                            {% if order_data.order.status == 'Delivered' %}Completed
+                            {% elif order_data.order.status == 'Out for Delivery' %}In Transit
+                            {% else %}{{ order_data.order.status }}{% endif %}
+                        </span>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for order_item in order_data.items %}
+                    <li class="list-group-item">
+                        <div class="d-flex align-items-center">
+                            <img src="{% if order_item.product.product_image %}{{ order_item.product.product_image.url }}{% else %}{% static 'assets/images/default_product.png' %}{% endif %}" alt="{{ order_item.product.product_name }}" style="width: 60px; height: 60px; object-fit: cover; margin-right: 15px;">
+                            <div class="flex-grow-1">
+                                <h6 class="mb-0">{{ order_item.product.product_name }}</h6>
+                                <small class="text-muted">{{ order_item.product.category }}</small>
+                            </div>
+                            <div class="text-end">
+                                <span class="me-3">{{ order_item.quantity }}x</span>
+                                <span>Rs. {{ order_item.price|floatformat:2 }}</span>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-center text-muted">You have no past orders.</p>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
